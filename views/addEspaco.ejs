@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Adicionar espaço</title>
+  <style>
+    body{
+      display: flex;
+      flex-direction:column;
+      align-items: center;
+      background-color: #252525;
+      margin: 0;
+      padding: 0;
+      padding-top: 1em;
+      color:white
+    }
+    .divForm{
+      padding: 3em;
+      border:gray solid 1px;
+      border-radius: .5em
+    }
+    
+    .label-float{
+      position: relative;
+      padding-top: 10px;
+      margin-top: 5%;
+      margin-bottom: 5%;
+    }
+    .label-float input{
+      width: 100%;
+      padding: 5px 5px ;
+      display: inline-block;
+      border: 0;
+      border-bottom: 1px solid gray;
+      background-color: transparent;
+      outline: none;
+      color: white;
+      min-width: 170px;
+      transition: all .3s ease-in-out;
+      border-radius: 5%;
+    }
+    .label-float input:focus{
+    border-bottom: 2px solid gray;
+    border-radius: 10%;
+    }
+    input:-webkit-autofill{
+      -webkit-box-shadow: 0 0 0px 1000px #252525 inset;
+      background-color: transparent !important;
+      -webkit-text-fill-color: white;
+    }
+    .label-float label{
+      cursor: pointer;
+      position: absolute;
+      top:0;
+      left: 0;
+      margin-top: 10px;
+      transition: all .5s ease-in-out;
+    }
+    .label-float input:focus + label,
+    .label-float input:valid + label{
+    font-size: 13px;
+    margin-top: 0px;
+    color: gray;
+  }
+    button{
+    background-color: transparent;
+    border: 1px solid gray;
+    color: white;
+    padding: 5px;
+  }
+  .divErro{
+    display: none;
+    background-color: #ffb2b2;
+    color: black;
+    font-weight: 600;
+    border-radius: 5px;;
+    width: 90%;
+    margin: 0 auto;
+    padding: 5px;
+    justify-content: center;
+    font-size: small;
+  }
+  </style>
+</head>
+<body>
+  <h1>Cadastro de Espaço</h1>
+  <div id="divForm">
+    <form id="form" onsubmit="enviaForm()"  > 
+      <div class="label-float">
+        <input type="text" id="nome" name="nome" required placeholder =""/>
+        <label id="lblNome">Nome</label>
+      </div>
+      <div class="label-float">
+        <input type="text" id="descricao" name="descricao" required/>
+        <label id="lblDesc">Descrição</label>
+      </div>
+      <div class="label-float">
+        <input type="text" id="capacidade" name="capacidade" required placeholder =""/>
+        <label id="lblCapacidade">Capacidade</label>
+      </div>
+      <div class="label-float">
+        <input type="text" id="local" name="local" required placeholder =""/>
+        <label id="lblLocal">Local</label>
+      </div>
+      <div class="divErro"></div>
+
+      <div style="display: flex;flex-direction: row; justify-content: space-around; margin-top: 2em;">
+         <button type="button" onclick="irParaHome()">Home</button>
+         <button type="submit">Criar</button>
+      </div>     
+    </form>
+  </div>
+</body>
+<script>
+  function irParaHome(){
+    window.location.href="/home"
+  }
+
+  async function enviaForm(){
+    event.preventDefault()
+    let form =document.getElementById("form");
+    const formData = new FormData(form)
+try{
+    const response = await fetch("/addEspaco",{
+      method:"POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded"
+        },
+        body: new URLSearchParams(formData).toString()
+    })
+    
+    const divErro = document.querySelector(".divErro");
+    if(!response.ok){
+      const responseData = await response.json();
+      const errMsg = responseData.err;
+      divErro.innerHTML = errMsg;
+      divErro.style.display = "flex";
+
+      setTimeout(()=>{divErro.innerHTML = "";
+      divErro.style.display = "none";},2000)
+    }
+    else{
+      divErro.innerHTML = "Espaço cadastrado!";
+      divErro.style.background= "green";
+      divErro.style.display = "flex";
+
+
+      setTimeout(()=>{divErro.innerHTML = "";
+      divErro.style.display = "none";
+      irParaHome();
+    },2000)
+    }
+    console.log("OK")
+    
+
+  } catch (error) {
+    console.log("Erro na requisição:", error);
+  }}
+
+  
+</script>
+</html>
