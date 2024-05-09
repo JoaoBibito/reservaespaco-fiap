@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Editar espaço</title>
+  <title>Exclui espaço</title>
   <style>
     body{
       display: flex;
@@ -91,6 +91,7 @@
   <script>
    async function BuscaEspaco(){
     const id = '<%= id %>';
+  
     const response = await fetch("/lerEspaco",{
       method:"POST",
       headers:{
@@ -100,9 +101,10 @@
     })
     
     const res = await response.json();
-    if(!res){
+    console.log(res)
+      if(!res){
       window.location.href="/home"
-    }
+        }
  document.getElementById("nome").value= res.nome
     document.getElementById("descricao").value= res.descricao
     document.getElementById("local").value= res.local
@@ -111,7 +113,7 @@
   BuscaEspaco()
 
   </script>
-  <h1>Edição de Espaço</h1>
+  <h1>Exclusão de Espaço</h1>
   <div id="divForm">
     <form id="form" onsubmit="enviaForm()"  > 
       <div class="label-float">
@@ -134,7 +136,7 @@
 
       <div style="display: flex;flex-direction: row; justify-content: space-around; margin-top: 2em;">
          <button type="button" onclick="irParaHome()">Home</button>
-         <button type="submit">Editar</button>
+         <button type="submit">Excluir</button>
       </div>     
     </form>
   </div>
@@ -151,7 +153,7 @@
     const id = '<%= id %>';
     formData.append("id",id)
   
-    const response = await fetch("/editEspaco",{
+    const response = await fetch("/deletEspaco",{
       method:"POST",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded"
@@ -159,6 +161,7 @@
         body: new URLSearchParams(formData).toString()
     })
     const divErro = document.querySelector(".divErro");
+    
     if(!response.ok){
     const responseData = await response.json()
       const errMsg = responseData.err;
@@ -169,8 +172,7 @@
       divErro.style.display = "none";},2000)
     }
     else{
-    console.log("oiiiiiiiiiiiiiiiiii",response)
-      divErro.innerHTML = "Espaço editado!";
+      divErro.innerHTML = "Espaço excluido!";
       divErro.style.background= "green";
       divErro.style.display = "flex";
 

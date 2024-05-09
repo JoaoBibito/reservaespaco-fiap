@@ -28,6 +28,7 @@
     border: 1px gray solid;
     width: 80%;
     padding: 10px;
+    margin: 0 auto;
     border-radius: 10px;
     align-items: center;
     margin-top: 7px;
@@ -42,6 +43,7 @@
   border:solid 1px white
   }
   h2{
+    min-width: 25%;
   margin-right: 20px;
 }
 
@@ -67,24 +69,18 @@
  }
 
 async  function irParaEditEscpaco(id){
-    const res = await fetch(`/editEspaco?${id}`, 
-      // { 
-      //   method:"POST",
-      //   headers: {
-      //           'Content-Type': 'application/json'
-      //       },
-      //   body: JSON.stringify({ id:id })
-      //     }
-        ) 
-
+  window.location.href=`/editEspaco/${id}`
 
  }
 
+ async function irParaDeletarEspaco(id){
+  window.location.href=`/deletEspaco/${id}`
+ }
  async function lerEspaco(){
   const response = await fetch("/lerEspacos")
   const data = await response.json();
   const div = document.getElementById("espacos")
-for(let e of data.res){
+  for(let e of data.res){
       div.innerHTML += `<div class="card" id="${e.espaco_id}">
       <h2>${e.nome}</h2>
 
@@ -101,7 +97,7 @@ for(let e of data.res){
         <button onclick="irParaEditEscpaco(${e.espaco_id})" style="background-color:blue">
           Editar
           </button>
-        <button  style="background-color:red">
+        <button onclick="irParaDeletarEspaco(${e.espaco_id})" style="background-color:red">
           Deletar
           </button>
         </div>

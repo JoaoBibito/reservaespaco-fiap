@@ -4,16 +4,19 @@ import userRouter from "./routes/user.route.js";
 import views from "./routes/views.routes.js";
 import sequelize from "./models/config.js";
 import espacoRouter from "./routes/espaco.routes.js";
+import {fileURLToPath} from "url";
+import {dirname, join} from "path";
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
 const app = express();
 const PORT = process.env.PORT || 8080;
-
-app.set("view engine", "ejs");
-app.set("views", "./views");
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 
+app.set("view engine", "ejs");
+app.set("views", join(__dirname, "views"));
 app.use("/", views);
-
 app.use("/", userRouter);
 app.use("/", espacoRouter);
 

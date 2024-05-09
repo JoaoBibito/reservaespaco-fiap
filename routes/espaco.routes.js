@@ -1,5 +1,11 @@
 import express from "express";
 import espacoController from "../controllers/espaco.controller.js";
+import ejs from "ejs";
+import * as path from "path";
+import {fileURLToPath} from "url";
+import {dirname, join} from "path";
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 const router = express.Router();
 
 router.get("/addEspaco", (req, res) => {
@@ -9,11 +15,25 @@ router.get("/addEspaco", (req, res) => {
 router.post("/addEspaco", espacoController.addEspaco);
 
 router.get("/lerEspacos", espacoController.lerEspacos);
+router.post("/lerEspaco", espacoController.lerEspaco);
 
-router.get("/editEspaco?:id", (req, res) => {
-  const {id} = req.body;
-  res.render("editEspaco", {id: id});
+router.get("/editEspaco/:id", (req, res) => {
+  try {
+    const {id} = req.params;
+    return res.render("editEspaco", {id: id});
+  } catch (ex) {
+    console.log("err", ex);
+  }
 });
-//router.post("/editEspaco", espacoController.editEspaco);
-
+router.post("/editEspaco", espacoController.editEspaco);
+router.get("/deletEspaco/:id", (req, res) => {
+  try {
+    const {id} = req.params;
+    return res.render("deletEspaco", {id: id});
+  } catch (ex) {
+    console.log("err", ex);
+  }
+});
+router.post("/deletEspaco", espacoController.deletEspaco);
+router;
 export default router;
