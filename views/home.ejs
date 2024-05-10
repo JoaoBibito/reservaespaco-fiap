@@ -70,11 +70,14 @@
 
 async  function irParaEditEscpaco(id){
   window.location.href=`/editEspaco/${id}`
-
  }
 
  async function irParaDeletarEspaco(id){
   window.location.href=`/deletEspaco/${id}`
+ }
+
+ async function irParaReservaEscpaco(id){
+  window.location.href=`/reservaEspaco/${id}`
  }
  async function lerEspaco(){
   const response = await fetch("/lerEspacos")
@@ -91,7 +94,7 @@ async  function irParaEditEscpaco(id){
 
       
       <div class="divBtns">
-        <button style="background-color:green">
+        <button onclick="irParaReservaEscpaco(${e.espaco_id})"   style="background-color:green">
           Reservar
           </button>
         <button onclick="irParaEditEscpaco(${e.espaco_id})" style="background-color:blue">

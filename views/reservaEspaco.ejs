@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reserva espaço</title>
+  <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js'></script>
+  <script>
+
+    document.addEventListener('DOMContentLoaded', function() {
+      const calendarEl = document.getElementById('calendar')
+      const calendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: 'dayGridMonth'
+      })
+      calendar.render()
+    })
+
+  </script>
+</head>
+
+<body>
+  <script>
+    async function BuscaEspaco(){
+     const id = '<%= id %>';
+   
+     const response = await fetch("/lerEspaco",{
+       method:"POST",
+       headers:{
+         "Content-Type": "application/json"
+       },
+         body: JSON.stringify({id:id})
+     })
+     
+     const res = await response.json();
+     console.log(res)
+       if(!res){
+       window.location.href="/home"
+         }
+        document.getElementById("nome").value= res.nome
+        document.getElementById("descricao").value= res.descricao
+        document.getElementById("local").value= res.local
+      document.getElementById("capacidade").value= res.capacidade
+   }
+   BuscaEspaco()
+ 
+   </script>
+   <div id='calendar'></div>
+</body>
+</html>
