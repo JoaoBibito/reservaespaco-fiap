@@ -1,5 +1,5 @@
 import express from "express";
-import espacoController from "../controllers/espaco.controller.js";
+import espacoController from "../controllers/espacoController.js";
 import ejs from "ejs";
 import * as path from "path";
 import {fileURLToPath} from "url";

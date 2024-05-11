@@ -72,4 +72,19 @@ const deletEspaco = async (req, res) => {
   return res.status(200).send();
   console.log("deletado", deletado);
 };
-export default {addEspaco, lerEspacos, lerEspaco, editEspaco, deletEspaco};
+
+const reservaEspaco = async (req, res) => {
+  const {reserva_inicio, reserva_fim, descricao, user_id, espaco_id} = req.body;
+
+  if (!reserva_inicio || !reserva_fim || !descricao || !user_id || !espaco_id) {
+    return res.status(400).json({err: "Preencha todos os campos!"});
+  }
+};
+export default {
+  addEspaco,
+  lerEspacos,
+  lerEspaco,
+  editEspaco,
+  deletEspaco,
+  reservaEspaco,
+};

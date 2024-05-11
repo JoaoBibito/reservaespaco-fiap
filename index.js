@@ -1,9 +1,9 @@
 import express from "express";
 import bodyParser from "body-parser";
-import userRouter from "./routes/user.route.js";
-import views from "./routes/views.routes.js";
+import userRouter from "./routes/userRouter.js";
+import views from "./routes/viewsRouter.js";
 import sequelize from "./models/config.js";
-import espacoRouter from "./routes/espaco.routes.js";
+import espacoRouter from "./routes/espacoRouter.js";
 import {fileURLToPath} from "url";
 import {dirname, join} from "path";
 const __filename = fileURLToPath(import.meta.url);

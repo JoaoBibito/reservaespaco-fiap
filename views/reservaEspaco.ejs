@@ -10,7 +10,12 @@
     document.addEventListener('DOMContentLoaded', function() {
       const calendarEl = document.getElementById('calendar')
       const calendar = new FullCalendar.Calendar(calendarEl, {
-        initialView: 'dayGridMonth'
+        initialView: 'dayGridMonth',
+        height: 650,
+        selectable: true, // Permitir seleção de datas
+        select: function(info) { console.log(info)
+          alert('Data selecionada: ' + info.startStr + ' até ' + info.endStr);
+        },
       })
       calendar.render()
     })
@@ -36,6 +41,7 @@
        if(!res){
        window.location.href="/home"
          }
+         console.log("RES",res)
         document.getElementById("nome").value= res.nome
         document.getElementById("descricao").value= res.descricao
         document.getElementById("local").value= res.local
