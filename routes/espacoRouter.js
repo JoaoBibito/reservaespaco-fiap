@@ -36,9 +36,5 @@ router.get("/deletEspaco/:id", (req, res) => {
 });
 router.post("/deletEspaco", espacoController.deletEspaco);
 
-router.get("/reservaEspaco/:id", (req, res) => {
-  const {id} = req.params;
-  return res.render("reservaEspaco", {id: id});
-});
 router;
 export default router;

@@ -7,17 +7,78 @@
   <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js'></script>
   <script>
 
-    document.addEventListener('DOMContentLoaded', function() {
+async function buscaReserva(){
+  const id = '<%= id %>';
+    const eventos = await fetch("/buscaReservasPorEspaco",{
+      method:"POST",
+      headers:{
+        "Content-Type": "application/json"
+      },
+      body:JSON.stringify({espaco_id:id})
+    }) 
+
+    const reservas = await eventos.json()
+return reservas.map(item=>{
+
+  let dataInicioOriginal =  item.reserva_inicio
+  const data = new Date(dataInicioOriginal);
+
+  const ano = data.getFullYear();
+  const mes = ("0" + (data.getMonth() + 1)).slice(-2); 
+  const dia = ("0" + data.getDate()).slice(-2); 
+  const horas = ("0" + data.getHours()).slice(-2); 
+  const minutos = ("0" + data.getMinutes()).slice(-2); 
+  const segundos = ("0" + data.getSeconds()).slice(-2); 
+  const milissegundos = ("00" + data.getMilliseconds()).slice(-3); 
+  const zonaHoraria = "Z"; 
+
+  const dataInicioFormatada = `${ano}-${mes}-${dia}T${horas}:${minutos}:${segundos}`
+
+
+  let dataFimOriginal =  item.reserva_fim
+    const dataFim = new Date(dataFimOriginal);
+
+  const anoFim = data.getFullYear();
+  const mesFim = ("0" + (dataFim.getMonth() + 1)).slice(-2); 
+  const diaFim = ("0" + dataFim.getDate()).slice(-2); 
+  const horasFim = ("0" + dataFim.getHours()).slice(-2); 
+  const minutosFim = ("0" + dataFim.getMinutes()).slice(-2); 
+  const segundosFim = ("0" + dataFim.getSeconds()).slice(-2); 
+  const milissegundosFim = ("00" + dataFim.getMilliseconds()).slice(-3); 
+  const zonaHorariaFim = "Z"; 
+
+  const dataFimFormatada = `${anoFim}-${mesFim}-${diaFim}T${horasFim}:${minutosFim}:${segundosFim}`
+
+  return {title:item.descricao==null?"Reservado":item.descricao,
+    start: dataInicioFormatada,
+      end: dataFimFormatada
+  }
+})
+}
+
+    document.addEventListener('DOMContentLoaded', async function() {
       const calendarEl = document.getElementById('calendar')
+      
+      const reservas = await buscaReserva();
+      console.log("resssss",reservas)
+
+
       const calendar = new FullCalendar.Calendar(calendarEl, {
-        initialView: 'dayGridMonth',
-        height: 650,
-        selectable: true, // Permitir seleção de datas
-        select: function(info) { console.log(info)
-          alert('Data selecionada: ' + info.startStr + ' até ' + info.endStr);
-        },
-      })
-      calendar.render()
+      initialView: 'dayGridMonth',
+      height: 650,
+      selectable: true,
+    select: function(info) {
+      alert('Data selecionada: ' + info.startStr + ' até ' + info.endStr);
+    },
+    selectConstraint: {
+      startTime: '00:00',
+      endTime: '24:00'
+    },
+    events: reservas,
+    selectOverlap: false
+  });
+  
+    calendar.render()
     })
 
   </script>
@@ -37,15 +98,9 @@
      })
      
      const res = await response.json();
-     console.log(res)
        if(!res){
        window.location.href="/home"
-         }
-         console.log("RES",res)
-        document.getElementById("nome").value= res.nome
-        document.getElementById("descricao").value= res.descricao
-        document.getElementById("local").value= res.local
-      document.getElementById("capacidade").value= res.capacidade
+        }
    }
    BuscaEspaco()
  

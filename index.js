@@ -4,6 +4,7 @@ import userRouter from "./routes/userRouter.js";
 import views from "./routes/viewsRouter.js";
 import sequelize from "./models/config.js";
 import espacoRouter from "./routes/espacoRouter.js";
+import reservaRouter from "./routes/reservaRouter.js";
 import {fileURLToPath} from "url";
 import {dirname, join} from "path";
 const __filename = fileURLToPath(import.meta.url);
@@ -19,6 +20,7 @@ app.set("views", join(__dirname, "views"));
 app.use("/", views);
 app.use("/", userRouter);
 app.use("/", espacoRouter);
+app.use("/", reservaRouter);
 
 app.listen(PORT, () => {
   console.log(`Servidor rodando na porta ${PORT}`);
