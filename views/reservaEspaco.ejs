@@ -7,7 +7,7 @@
   <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js'></script>
   <script>
 
-async function buscaReserva(){
+    async function buscaReserva(){
   const id = '<%= id %>';
     const eventos = await fetch("/buscaReservasPorEspaco",{
       method:"POST",
@@ -49,7 +49,7 @@ return reservas.map(item=>{
 
   const dataFimFormatada = `${anoFim}-${mesFim}-${diaFim}T${horasFim}:${minutosFim}:${segundosFim}`
 
-  return {title:item.descricao==null?"Reservado":item.descricao,
+  return {title:"",
     start: dataInicioFormatada,
       end: dataFimFormatada
   }
@@ -58,29 +58,56 @@ return reservas.map(item=>{
 
     document.addEventListener('DOMContentLoaded', async function() {
       const calendarEl = document.getElementById('calendar')
-      
       const reservas = await buscaReserva();
-      console.log("resssss",reservas)
-
-
       const calendar = new FullCalendar.Calendar(calendarEl, {
       initialView: 'dayGridMonth',
       height: 650,
       selectable: true,
-    select: function(info) {
-      alert('Data selecionada: ' + info.startStr + ' até ' + info.endStr);
-    },
-    selectConstraint: {
-      startTime: '00:00',
-      endTime: '24:00'
-    },
-    events: reservas,
-    selectOverlap: false
-  });
+      select: function(info) {
+        MostraHorarios(info)
+      },
+      selectConstraint: {
+        startTime: '00:00',
+        endTime: '24:00'
+      },
+      events: reservas,
+    });
   
     calendar.render()
     })
 
+
+    async function MostraHorarios(info){
+      
+  const id = '<%= id %>';
+
+      const response = await fetch("/buscaReservaPorDia",{
+        method:"POST",
+        headers:{
+          "Content-Type": "application/json"
+        },
+        body:JSON.stringify({
+          espaco_id:id,
+          dia:info.startStr
+        })
+      })
+
+      const reservas = await response.json()
+      console.log("response",reservas)
+
+      const horarios = document.getElementById("reservas")  
+      horarios.innerHTML=""
+      reservas.map(event =>{
+        horarios.innerHTML +=`
+        <div class="card">
+          <h5>Descrição</h5>
+          ${event.reserva_inicio}
+          ${event.reserva_fim}
+        </div>
+        `
+
+      })
+    } 
   </script>
 </head>
 
@@ -106,5 +133,6 @@ return reservas.map(item=>{
  
    </script>
    <div id='calendar'></div>
+   <div id="reservas"></div>
 </body>
 </html>

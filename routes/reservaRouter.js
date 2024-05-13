@@ -13,4 +13,6 @@ router.post(
   reservaController.buscaReservasPorEspaco
 );
 
+router.post("/buscaReservaPorDia", reservaController.buscaReservaPorDia);
+
 export default router;

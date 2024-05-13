@@ -1,3 +1,5 @@
+import sequelize from "../models/config.js";
+import {Sequelize} from "sequelize";
 import reserva from "../models/reserva.js";
 const reservaEspaco = async (req, res) => {
   const {reserva_inicio, reserva_fim, descricao, user_id, espaco_id} = req.body;
@@ -19,4 +21,26 @@ const buscaReservasPorEspaco = async (req, res) => {
 
   return res.status(200).send(reservas);
 };
-export default {reservaEspaco, buscaReservasPorEspaco};
+
+const buscaReservaPorDia = async (req, res) => {
+  const {espaco_id, dia} = req.body;
+  console.log("oiiiiiiiiiiiiiiiiiiiiiiiiiiii", req.body);
+  if (!espaco_id || !dia) {
+    return res.status(400).json({err: "Preencha todos os campos!"});
+  }
+  try {
+  } catch (ex) {
+    console.log("err", ex);
+  }
+  const reservas = await reserva.findAll({
+    where: {
+      espaco_id,
+      reserva_inicio: {[Sequelize.Op.gt]: `${dia}T00:00:00`},
+      reserva_fim: {[Sequelize.Op.lt]: `${dia}T23:59:00`},
+    },
+    order: [["reserva_inicio", "ASC"]],
+  });
+
+  res.status(200).send(reservas);
+};
+export default {reservaEspaco, buscaReservasPorEspaco, buscaReservaPorDia};
