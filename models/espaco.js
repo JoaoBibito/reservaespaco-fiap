@@ -26,6 +26,10 @@ const espaco = sequelize.define(
       type: DataTypes.STRING,
       allowNull: true,
     },
+    imagem: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
   },
   {
     timestamps: false,
