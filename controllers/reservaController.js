@@ -24,7 +24,6 @@ const buscaReservasPorEspaco = async (req, res) => {
 
 const buscaReservaPorDia = async (req, res) => {
   const {espaco_id, dia} = req.body;
-  console.log("oiiiiiiiiiiiiiiiiiiiiiiiiiiii", req.body);
   if (!espaco_id || !dia) {
     return res.status(400).json({err: "Preencha todos os campos!"});
   }

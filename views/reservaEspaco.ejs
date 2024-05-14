@@ -4,11 +4,86 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Reserva espaço</title>
+  <style>
+    #divReservas{
+    display: flex;
+    flex-direction: row;
+    width: 95%;
+    margin: 0 auto;
+    border: 1px solid red;
+    }
+    #reservar{
+      width: 48%;
+    padding: 15px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+  }
+  #horarios{
+  width: 48%;
+  display: flex;
+  flex-direction: column;
+  }
+    .divForm{
+      padding: 3em;
+      border:gray solid 1px;
+      border-radius: .5em
+    }
+    
+    .label-float{
+      position: relative;
+      padding-top: 10px;
+      margin-top: 5%;
+      margin-bottom: 5%;
+    }
+    .label-float input{
+      width: 100%;
+      padding: 5px 5px ;
+      display: inline-block;
+      border: 0;
+      border-bottom: 1px solid gray;
+      background-color: transparent;
+      outline: none;
+      color: white;
+      min-width: 170px;
+      transition: all .3s ease-in-out;
+      border-radius: 5%;
+    }
+    .label-float input:focus{
+    border-bottom: 2px solid gray;
+    border-radius: 10%;
+    }
+    input:-webkit-autofill{
+      -webkit-box-shadow: 0 0 0px 1000px #252525 inset;
+      background-color: transparent !important;
+      -webkit-text-fill-color: white;
+    }
+    .label-float label{
+      cursor: pointer;
+      position: absolute;
+      top:0;
+      left: 0;
+      margin-top: 10px;
+      transition: all .5s ease-in-out;
+    }
+    .label-float input:focus + label,
+    .label-float input:valid + label{
+    font-size: 13px;
+    margin-top: 0px;
+    color: gray;
+  }button{
+    background-color: transparent;
+    border: 1px solid gray;
+    color: white;
+    padding: 5px;
+  }
+  </style>
   <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js'></script>
   <script>
 
     async function buscaReserva(){
-  const id = '<%= id %>';
+    const id = '<%= id %>';
     const eventos = await fetch("/buscaReservasPorEspaco",{
       method:"POST",
       headers:{
@@ -18,7 +93,7 @@
     }) 
 
     const reservas = await eventos.json()
-return reservas.map(item=>{
+    return reservas.map(item=>{
 
   let dataInicioOriginal =  item.reserva_inicio
   const data = new Date(dataInicioOriginal);
@@ -79,7 +154,7 @@ return reservas.map(item=>{
 
     async function MostraHorarios(info){
       
-  const id = '<%= id %>';
+      const id = '<%= id %>';
 
       const response = await fetch("/buscaReservaPorDia",{
         method:"POST",
@@ -93,21 +168,35 @@ return reservas.map(item=>{
       })
 
       const reservas = await response.json()
-      console.log("response",reservas)
 
-      const horarios = document.getElementById("reservas")  
+      const horarios = document.getElementById("horarios") 
       horarios.innerHTML=""
       reservas.map(event =>{
+
+        const dtInicio= formataData(event.reserva_inicio)
+        const dtFim=formataData(event.reserva_fim)
+
+    
         horarios.innerHTML +=`
         <div class="card">
           <h5>Descrição</h5>
-          ${event.reserva_inicio}
-          ${event.reserva_fim}
+          ${dtInicio} --- 
+          ${dtFim}
         </div>
         `
-
       })
     } 
+  
+    function formataData(dt){
+      const data = new Date(dt);
+  const dia = ("0" + data.getDate()).slice(-2);
+  const mes = ("0" + (data.getMonth() + 1)).slice(-2);
+  const ano = data.getFullYear();
+  const horas = ("0" + data.getHours()).slice(-2);
+  const minutos = ("0" + data.getMinutes()).slice(-2);
+  
+  return `${horas}:${minutos}`;
+    }
   </script>
 </head>
 
@@ -133,6 +222,62 @@ return reservas.map(item=>{
  
    </script>
    <div id='calendar'></div>
-   <div id="reservas"></div>
+   <div id="divReservas">
+     <div id="reservar">
+      <h5>Reservar</h5>
+      <div id="divForm">
+        <form id="form" onsubmit="enviaForm()"  > 
+         
+          <div class="label-float">
+            <input type="" id="descricao" name="descricao" required/>
+            <label id="lblDesc">Descrição</label>
+          </div>
+          <div class="label-float">
+            <input type="time" id="dtInicio" >
+
+            <label id="lblInicio">Inicio</label>
+          </div>
+          <div class="label-float">
+            <input type="time" id="dtFim" >
+
+            <label id="lblLocal">Final</label>
+          </div>
+          <div class="divErro"></div>
+    
+          <div style="display: flex;flex-direction: row; justify-content: space-around; margin-top: 2em;">
+             <button type="button" onclick="irParaHome()">Limpar</button>
+             <button type="submit">Reservar</button>
+          </div>     
+        </form>
+      </div>
+    </div>
+    <div id="horarios"></div>
+   
+   </div>
 </body>
+<script>
+  async function enviaForm(){
+    event.preventDefault()
+
+    let dtInicio = document.getElementById("dtInicio").value
+    let dtFim = document.getElementById("dtFim").value
+
+    if(dtInicio>dtFim){
+      alert("Hora de inicio tem que ser menor que hora final ")
+    }
+    console.log("datas", dtInicio,dtFim)
+
+    const inicio = new Date(`2000-01-01T${dtInicio}`);
+    const fim = new Date(`2000-01-01T${dtFim}`);
+
+    const diferencaEmMS = Math.abs(fim - inicio);
+
+    const diferencaEmHs = diferencaEmMS / (1000 * 60 * 60);
+    console.log("dif",diferencaEmHs)
+    // Verificando se a diferença está entre 1 e 8 horas
+    if (diferencaEmHs < 1 || diferencaEmHs > 8) {
+        alert("Reserva tem que ser maior que 1 hora e menor que 8 horas.");
+    } 
+}
+</script>
 </html>
