@@ -1,6 +1,16 @@
 import sequelize from "../models/config.js";
 import {Sequelize} from "sequelize";
 import reserva from "../models/reserva.js";
+
+const viewReservaEspaco = (req, res) => {
+  const {id} = req.params;
+  const locals = {
+    title: "Reservas | Grupo O",
+    description: "Página de Reserva de Espaço",
+    id,
+  };
+  return res.render("reservaEspaco", locals);
+};
 const reservaEspaco = async (req, res) => {
   const {reserva_inicio, reserva_fim, descricao, user_id, espaco_id} = req.body;
 
@@ -42,4 +52,9 @@ const buscaReservaPorDia = async (req, res) => {
 
   res.status(200).send(reservas);
 };
-export default {reservaEspaco, buscaReservasPorEspaco, buscaReservaPorDia};
+export default {
+  viewReservaEspaco,
+  reservaEspaco,
+  buscaReservasPorEspaco,
+  buscaReservaPorDia,
+};

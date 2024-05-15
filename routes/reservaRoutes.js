@@ -3,10 +3,7 @@ import reservaController from "../controllers/reservaController.js";
 
 const router = Router();
 
-router.get("/reservaEspaco/:id", (req, res) => {
-  const {id} = req.params;
-  return res.render("reservaEspaco", {id: id});
-});
+router.get("/reservaEspaco/:id", reservaController.viewReservaEspaco);
 
 router.post(
   "/buscaReservasPorEspaco",

@@ -1,11 +1,18 @@
 import {where} from "sequelize";
 import espaco from "../models/espaco.js";
 
-const addEspaco = async (req, res) => {
-  const {nome, descricao, capacidade, local} = req.body;
+const viewAddEspaco = async (req, res) => {
+  const locals = {
+    title: "Reservas | Grupo O",
+    description: "Página de Cadastro de Espaço",
+  };
+  res.render("addEspaco", locals);
+};
 
+const addEspaco = async (req, res) => {
+  const {nome, descricao, capacidade, local, img} = req.body;
   try {
-    if (!nome || !local || !capacidade || !descricao) {
+    if (!nome || !local || !capacidade || !descricao || !img) {
       return res.status(400).json({err: "Preencha todos os campos!"});
     }
 
@@ -14,6 +21,7 @@ const addEspaco = async (req, res) => {
       local: local,
       descricao: descricao,
       capacidade: capacidade,
+      imagem: img,
     });
 
     setTimeout(() => {
@@ -39,8 +47,22 @@ const lerEspaco = async (req, res) => {
   return res.status(200).json(response);
 };
 
+const viewEditEspaco = async (req, res) => {
+  const {id} = req.params;
+
+  const locals = {
+    title: "Reservas | Grupo O",
+    description: "Página de Edição de Espaço",
+    id: id,
+  };
+
+  res.render("editEspaco", locals);
+};
+
 const editEspaco = async (req, res) => {
   const {id, nome, descricao, local, capacidade} = req.body;
+
+  console.log("oi", id, nome, descricao, local, capacidade);
   if (!id || !nome || !descricao || !local || !capacidade) {
     return res.status(400).json({err: "Preencha todos os campos!"});
   }
@@ -57,6 +79,14 @@ const editEspaco = async (req, res) => {
   return res.status(200).send();
 };
 
+const viewDeletEspaco = async (req, res) => {
+  try {
+    const {id} = req.params;
+    return res.render("deletEspaco", {id: id});
+  } catch (ex) {
+    console.log("err", ex);
+  }
+};
 const deletEspaco = async (req, res) => {
   const {id} = req.body;
   if (!id) {
@@ -80,11 +110,15 @@ const reservaEspaco = async (req, res) => {
     return res.status(400).json({err: "Preencha todos os campos!"});
   }
 };
+
 export default {
+  viewAddEspaco,
   addEspaco,
   lerEspacos,
   lerEspaco,
+  viewEditEspaco,
   editEspaco,
+  viewDeletEspaco,
   deletEspaco,
   reservaEspaco,
 };

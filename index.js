@@ -1,26 +1,33 @@
 import express from "express";
+import expressLayouts from "express-ejs-layouts";
 import bodyParser from "body-parser";
-import userRouter from "./routes/userRouter.js";
-import views from "./routes/viewsRouter.js";
+import views from "./routes/viewsRoutes.js";
+import userRouter from "./routes/userRoutes.js";
+import espacoRouter from "./routes/espacoRoutes.js";
+import reservaRouter from "./routes/reservaRoutes.js";
 import sequelize from "./models/config.js";
-import espacoRouter from "./routes/espacoRouter.js";
-import reservaRouter from "./routes/reservaRouter.js";
-import {fileURLToPath} from "url";
-import {dirname, join} from "path";
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+import dotenv from "dotenv";
+dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 8080;
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 
+app.use(express.static("public"));
+app.use(expressLayouts);
+
 app.set("view engine", "ejs");
-app.set("views", join(__dirname, "views"));
+app.set("layout", "./layout/main.ejs");
+app.set("views", "./views");
 app.use("/", views);
 app.use("/", userRouter);
 app.use("/", espacoRouter);
 app.use("/", reservaRouter);
+
+app.get("*", function (req, res) {
+  res.status(404).render("404");
+});
 
 app.listen(PORT, () => {
   console.log(`Servidor rodando na porta ${PORT}`);

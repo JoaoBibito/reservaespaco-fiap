@@ -1,112 +1,18 @@
-<!DOCTYPE html>
-<html lang="pt">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Home</title>
-  <style>
-    body{
-      display: flex;
-      flex-direction:column;
-      align-items: center;
-      background-color: #252525;
-      margin: 0;
-      padding: 0;
-      padding-top: 1em;
-      color:white
-    }
-    header{
-    position: fixed;
-    padding: 15px;
-    top:0;
-    height: 40px;
-    width: 100%;
-      background-color: #252525;
-  }
-.card{
-  display: flex;
-    border: 1px gray solid;
-    width: 80%;
-    padding: 10px;
-    margin: 0 auto;
-    border-radius: 10px;
-    align-items: center;
-    margin-top: 7px;
-  }
-  .divBtns{
-    display: flex;
-    flex-direction: column;
-    margin-left: auto;
-  }
-  .divBtns>button{
-  margin:2px;
-  border:solid 1px white
-  }
-  h2{
-    min-width: 25%;
-  margin-right: 20px;
-}
 
-  </style>
-</head>
-<body>
-  <header>
-    <div>
-      <button onclick="irParaAddEscpaco()">Adicionar espaço</button>
-      <button>Minhas reservas</button>
-    </div>
-  </header>
-  <div style="margin-top: 40px;width:80%">
-    <h3>Espaços</h3>
-    <div id="espacos">
+<div class="col">
+  <div class="text-end">
+  <button onclick="irParaAddEscpaco()" class="btn btn-dark btn-sm">Adicionar espaço</button>
+  <button class="btn btn-dark btn-sm">Minhas reservas</button>
+</div>
+</div>
 
-    </div>
-  </div>
-</body>
+<div class="container-fluid container-fluid-custom pb-5 mb-5">
+<h3>Espaços</h3>
+<div id="espacos" class="row">
+
+</div>
+</div>
+
 <script>
- function irParaAddEscpaco(){
-  window.location.href="/addEspaco"
- }
-
-async  function irParaEditEscpaco(id){
-  window.location.href=`/editEspaco/${id}`
- }
-
- async function irParaDeletarEspaco(id){
-  window.location.href=`/deletEspaco/${id}`
- }
-
- async function irParaReservaEscpaco(id){
-  window.location.href=`/reservaEspaco/${id}`
- }
- async function lerEspaco(){
-  const response = await fetch("/lerEspacos")
-  const data = await response.json();
-  const div = document.getElementById("espacos")
-  for(let e of data.res){
-      div.innerHTML += `<div class="card" id="${e.espaco_id}">
-      <h2>${e.nome}</h2>
-
-      <div style="display:inline-block">
-        <h4>${e.descricao}</h4>
-        <p>${e.local}</p>
-       </div> 
-
-      
-      <div class="divBtns">
-        <button onclick="irParaReservaEscpaco(${e.espaco_id})"   style="background-color:green">
-          Reservar
-          </button>
-        <button onclick="irParaEditEscpaco(${e.espaco_id})" style="background-color:blue">
-          Editar
-          </button>
-        <button onclick="irParaDeletarEspaco(${e.espaco_id})" style="background-color:red">
-          Deletar
-          </button>
-        </div>
-      </div>` 
-    }
-    }
- lerEspaco()
+  lerEspacos()
 </script>
-</html>
