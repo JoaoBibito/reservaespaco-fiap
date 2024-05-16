@@ -8,8 +8,8 @@ const reserva = sequelize.define(
   {
     reserva_id: {
       type: DataTypes.INTEGER,
-      allowNull: false,
       primaryKey: true,
+      autoIncrement: true,
     },
     reserva_inicio: {
       type: DataTypes.DATE,

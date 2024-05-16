@@ -155,6 +155,8 @@
     async function MostraHorarios(info){
       
       const id = '<%= id %>';
+      document.getElementById("diaSelecionado").value = info.startStr;
+      
 
       const response = await fetch("/buscaReservaPorDia",{
         method:"POST",
@@ -226,27 +228,27 @@
      <div id="reservar">
       <h5>Reservar</h5>
       <div id="divForm">
-        <form id="form" onsubmit="enviaForm()"  > 
-         
+        <form id="form" onsubmit="reservaEspaco(event)"  >          
           <div class="label-float">
             <input type="" id="descricao" name="descricao" required/>
             <label id="lblDesc">Descrição</label>
           </div>
           <div class="label-float">
-            <input type="time" id="dtInicio" >
+            <input type="time" name="reserva_inicio" id="dtInicio" >
 
             <label id="lblInicio">Inicio</label>
           </div>
           <div class="label-float">
-            <input type="time" id="dtFim" >
-
-            <label id="lblLocal">Final</label>
+            <input type="time" name="reserva_fim" id="dtFim" >
+            <label id="lblFim">Final</label>
           </div>
+          <input type="hidden" id="diaSelecionado" name="diaSelecionado">
           <div class="divErro"></div>
     
           <div style="display: flex;flex-direction: row; justify-content: space-around; margin-top: 2em;">
-             <button type="button" onclick="irParaHome()">Limpar</button>
              <button type="submit">Reservar</button>
+             <button type="button" onclick="irParaHome()">Limpar</button>
+             
           </div>     
         </form>
       </div>
@@ -261,39 +263,49 @@
 
     let dtInicio = document.getElementById("dtInicio").value
     let dtFim = document.getElementById("dtFim").value
+    const dia = document.getElementById("diaSelecionado").value 
+    const espaco_id ="<%= id %>"
+    const user_id = localStorage.getItem("user_id")
 
     if(dtInicio>dtFim){
       alert("Hora de inicio tem que ser menor que hora final ")
     }
-    console.log("datas", dtInicio,dtFim)
 
-    const inicio = new Date(`2000-01-01T${dtInicio}`);
-    const fim = new Date(`2000-01-01T${dtFim}`);
-
+    const inicio = new Date(`${dia}T${dtInicio}`);
+    const fim = new Date(`${dia}T${dtFim}`);
     const diferencaEmMS = Math.abs(fim - inicio);
-
     const diferencaEmHs = diferencaEmMS / (1000 * 60 * 60);
-    console.log("dif",diferencaEmHs)
-    // Verificando se a diferença está entre 1 e 8 horas
     if (diferencaEmHs < 1 || diferencaEmHs > 8) {
         alert("Reserva tem que ser maior que 1 hora e menor que 8 horas.");
     } 
 
     let form = document.getElementById("form");
   const formData = new FormData(form);
+  formData.append("espaco_id", espaco_id);
+  formData.append("user_id", user_id);
+  formData.append("dia", dia);
+
+
 
     const res = await fetch("/reservaEspaco",{
       method:"POST",
        headers: {
         "Content-Type": "application/x-www-form-urlencoded",
       },
-      body: new URLSearchParams(formData).toString(),
+      body:new URLSearchParams(formData).toString(),
     });
 
-    const data = await res;
-    console.log("data", data)
+    const data = await res.json();
 
+    if(data.err){
+      alert(data.err)
+    }
 
+    console.log("data",data)
+    alert(data)
+    setTimeout(() => {
+      irParaHome()
+    }, 2000);
 }
 </script>
 </html>

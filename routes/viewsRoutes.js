@@ -1,8 +1,8 @@
 import {Router} from "express";
-import userController from "../controllers/userController.js";
+import middleware from "../controllers/middleware.js";
 const router = Router();
 
-router.get("/", (req, res) => {
+router.get("/", middleware.isLogged, (req, res) => {
   const locals = {
     title: "Reservas | Grupo O",
     description: "Página de Reservas",

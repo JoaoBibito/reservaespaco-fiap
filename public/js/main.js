@@ -39,7 +39,6 @@ async function EfetuaLogin(event) {
     body: new URLSearchParams(formData).toString(),
   });
   const data = await response.json();
-  console.log("data", data);
   if (!data.nome) {
     const divErro = document.querySelector(".divErro");
     divErro.innerHTML = "Usuario ou senhas inválidos!";
@@ -49,7 +48,9 @@ async function EfetuaLogin(event) {
       divErro.style.display = "none";
     }, 2000);
   }
-  window.localStorage.setItem("nome", data.nome);
+  localStorage.setItem("user_nome", data.nome);
+  localStorage.setItem("user_id", data.user_id);
+  localStorage.setItem("user_tipo", data.user_tipo);
 
   irParaHome();
 }
@@ -212,4 +213,52 @@ async function lerEspacos() {
     </div>
   </div>`;
   }
+}
+
+async function reservaEspaco(event) {
+  event.preventDefault();
+
+  let dtInicio = document.getElementById("dtInicio").value;
+  let dtFim = document.getElementById("dtFim").value;
+  const dia = document.getElementById("diaSelecionado").value;
+  const espaco_id = "<%= id %>";
+  const user_id = localStorage.getItem("user_id");
+
+  if (dtInicio > dtFim) {
+    alert("Hora de inicio tem que ser menor que hora final ");
+  }
+
+  const inicio = new Date(`${dia}T${dtInicio}`);
+  const fim = new Date(`${dia}T${dtFim}`);
+  const diferencaEmMS = Math.abs(fim - inicio);
+  const diferencaEmHs = diferencaEmMS / (1000 * 60 * 60);
+  if (diferencaEmHs < 1 || diferencaEmHs > 8) {
+    alert("Reserva tem que ser maior que 1 hora e menor que 8 horas.");
+  }
+
+  let form = document.getElementById("form");
+  const formData = new FormData(form);
+  formData.append("espaco_id", espaco_id);
+  formData.append("user_id", user_id);
+  formData.append("dia", dia);
+
+  const res = await fetch("/reservaEspaco", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+    body: new URLSearchParams(formData).toString(),
+  });
+
+  const data = await res.json();
+
+  if (data.err) {
+    alert(data.err);
+  }
+
+  console.log("data", data);
+  alert(data.res);
+  setTimeout(() => {
+    irParaHome();
+  }, 2000);
 }

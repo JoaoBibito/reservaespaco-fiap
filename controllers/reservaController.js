@@ -12,40 +12,51 @@ const viewReservaEspaco = (req, res) => {
   return res.render("reservaEspaco", locals);
 };
 const reservaEspaco = async (req, res) => {
-  const {
-    reserva_inicio: dtInicio,
-    reserva_fim,
-    descricao,
-    user_id,
-    espaco_id,
-  } = req.body;
-  console.log(
-    "kkkkkkkkkkkkkkkkk",
-    req.body,
-    reserva_inicio,
-    reserva_fim,
-    descricao,
-    user_id,
-    espaco_id
-  );
-  if (!reserva_inicio || !reserva_fim || !descricao || !user_id || !espaco_id) {
+  const {reserva_inicio, reserva_fim, descricao, user_id, espaco_id, dia} =
+    req.body;
+
+  if (
+    !reserva_inicio ||
+    !reserva_fim ||
+    !descricao ||
+    !user_id ||
+    !espaco_id ||
+    !dia
+  ) {
     return res.status(400).json({err: "Preencha todos os campos!"});
   }
 
-  const conflito = await reserva.findAll({
+  console.log("datas", reserva_fim, reserva_inicio);
+  const response = await reserva.findAll({
     where: {
+      espaco_id: espaco_id,
       reserva_inicio: {
-        [Sequelize.Op.lte]: reserva_inicio,
+        [Sequelize.Op.lte]: `${dia} ${reserva_inicio}`,
       },
       reserva_fim: {
-        [Sequelize.Op.gte]: reserva_fim,
+        [Sequelize.Op.gte]: `${dia} ${reserva_fim}`,
       },
       espaco_id: espaco_id,
     },
   });
 
-  console.log("conflito", conflito);
-  const novaReserva = reserva.create();
+  if (response.length > 0) {
+    return res.status(400).json({err: "Existe reserva neste horário."});
+  }
+
+  const novaReserva = await reserva.create({
+    reserva_inicio: `${dia} ${reserva_inicio}`,
+    reserva_fim: `${dia} ${reserva_fim}`,
+    descricao: descricao,
+    user_id: user_id,
+    espaco_id: espaco_id,
+  });
+
+  if (!novaReserva) {
+    return res.status(400).json({err: "Não foi possível criar a reserva."});
+  }
+
+  return res.status(200).json({res: "Reserva criada com sucesso!"});
 };
 
 const buscaReservasPorEspaco = async (req, res) => {

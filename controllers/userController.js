@@ -22,7 +22,11 @@ const loginUser = async (req, res) => {
     if (!novaSenha) {
       return res.status(400).json({err: "Usuario ou senhas inválidos!"});
     }
-    return res.status(200).json({nome: resDB.nome});
+    return res.status(200).json({
+      nome: resDB.nome,
+      user_id: resDB.user_id,
+      user_tipo: resDB.tipo,
+    });
   } catch (ex) {
     console.log("rr", ex);
   }
