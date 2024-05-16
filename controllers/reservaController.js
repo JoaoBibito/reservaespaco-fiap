@@ -12,12 +12,39 @@ const viewReservaEspaco = (req, res) => {
   return res.render("reservaEspaco", locals);
 };
 const reservaEspaco = async (req, res) => {
-  const {reserva_inicio, reserva_fim, descricao, user_id, espaco_id} = req.body;
-
+  const {
+    reserva_inicio: dtInicio,
+    reserva_fim,
+    descricao,
+    user_id,
+    espaco_id,
+  } = req.body;
+  console.log(
+    "kkkkkkkkkkkkkkkkk",
+    req.body,
+    reserva_inicio,
+    reserva_fim,
+    descricao,
+    user_id,
+    espaco_id
+  );
   if (!reserva_inicio || !reserva_fim || !descricao || !user_id || !espaco_id) {
     return res.status(400).json({err: "Preencha todos os campos!"});
   }
 
+  const conflito = await reserva.findAll({
+    where: {
+      reserva_inicio: {
+        [Sequelize.Op.lte]: reserva_inicio,
+      },
+      reserva_fim: {
+        [Sequelize.Op.gte]: reserva_fim,
+      },
+      espaco_id: espaco_id,
+    },
+  });
+
+  console.log("conflito", conflito);
   const novaReserva = reserva.create();
 };
 
@@ -52,6 +79,7 @@ const buscaReservaPorDia = async (req, res) => {
 
   res.status(200).send(reservas);
 };
+
 export default {
   viewReservaEspaco,
   reservaEspaco,

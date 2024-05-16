@@ -4,6 +4,7 @@ import reservaController from "../controllers/reservaController.js";
 const router = Router();
 
 router.get("/reservaEspaco/:id", reservaController.viewReservaEspaco);
+router.post("/reservaEspaco", reservaController.reservaEspaco);
 
 router.post(
   "/buscaReservasPorEspaco",

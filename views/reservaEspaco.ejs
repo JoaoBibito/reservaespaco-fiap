@@ -279,7 +279,20 @@
         alert("Reserva tem que ser maior que 1 hora e menor que 8 horas.");
     } 
 
-    
+    let form = document.getElementById("form");
+  const formData = new FormData(form);
+
+    const res = await fetch("/reservaEspaco",{
+      method:"POST",
+       headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      body: new URLSearchParams(formData).toString(),
+    });
+
+    const data = await res;
+    console.log("data", data)
+
 
 }
 </script>

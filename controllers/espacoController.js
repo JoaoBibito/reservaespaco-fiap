@@ -103,14 +103,6 @@ const deletEspaco = async (req, res) => {
   console.log("deletado", deletado);
 };
 
-const reservaEspaco = async (req, res) => {
-  const {reserva_inicio, reserva_fim, descricao, user_id, espaco_id} = req.body;
-
-  if (!reserva_inicio || !reserva_fim || !descricao || !user_id || !espaco_id) {
-    return res.status(400).json({err: "Preencha todos os campos!"});
-  }
-};
-
 export default {
   viewAddEspaco,
   addEspaco,
@@ -120,5 +112,4 @@ export default {
   editEspaco,
   viewDeletEspaco,
   deletEspaco,
-  reservaEspaco,
 };
