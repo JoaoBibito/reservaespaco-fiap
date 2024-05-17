@@ -5,8 +5,12 @@
     </a>
 
     <div class="text-end">
-      <a href="/cadastro" type="button" class="btn btn-outline-light me-2">Cadastre-se</a>
-      <a href="/login" type="button" class="btn btn-warning">Login</a>
+      <% if (locals.currentUrl !== '/login' && locals.currentUrl !== '/cadastro') { %>
+        <a href="/cadastro" type="button" class="btn btn-outline-light me-2">Cadastre-se</a>
+        <a href="/login" type="button" class="btn btn-warning">Sair</a>
+      <% } %>
     </div>
 </header>
 </div>
+
+

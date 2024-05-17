@@ -20,6 +20,11 @@ app.use(expressLayouts);
 app.set("view engine", "ejs");
 app.set("layout", "./layout/main.ejs");
 app.set("views", "./views");
+app.get("*", (req, res, next) => {
+  res.locals.currentUrl = req.originalUrl;
+  next();
+});
+
 app.use("/", views);
 app.use("/", userRouter);
 app.use("/", espacoRouter);

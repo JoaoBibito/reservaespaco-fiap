@@ -14,5 +14,13 @@
 </div>
 
 <script>
+  function verificaLoggado(){
+    const logado = localStorage.getItem("token")
+    if(!logado){
+      irParaLogin()
+    }
+    return;
+  }
+  verificaLoggado()
   lerEspacos()
 </script>

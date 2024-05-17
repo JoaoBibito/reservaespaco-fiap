@@ -27,7 +27,6 @@ async function irParaCadastro() {
 
 async function EfetuaLogin(event) {
   event.preventDefault();
-
   let form = document.getElementById("form");
   const formData = new FormData(form);
 
@@ -39,6 +38,9 @@ async function EfetuaLogin(event) {
     body: new URLSearchParams(formData).toString(),
   });
   const data = await response.json();
+  localStorage.setItem("token", data.token);
+  localStorage.setItem("tipo ", data.user_tipo);
+
   if (!data.nome) {
     const divErro = document.querySelector(".divErro");
     divErro.innerHTML = "Usuario ou senhas inválidos!";
@@ -48,9 +50,6 @@ async function EfetuaLogin(event) {
       divErro.style.display = "none";
     }, 2000);
   }
-  localStorage.setItem("user_nome", data.nome);
-  localStorage.setItem("user_id", data.user_id);
-  localStorage.setItem("user_tipo", data.user_tipo);
 
   irParaHome();
 }
@@ -198,6 +197,7 @@ async function lerEspacos() {
   const response = await fetch("/lerEspacos");
   const data = await response.json();
   const div = document.getElementById("espacos");
+  const tipo = localStorage.getItem("tipo");
   for (let e of data.res) {
     div.innerHTML += `<div class="col-sm-3 mb-4" id="${e.espaco_id}">
     
@@ -206,9 +206,15 @@ async function lerEspacos() {
         <h5 class="card-title">${e.descricao}</h5>
         <p class="card-text fw-bold"><p>${e.local}</p>
         <div>
-        <button type="button" class="btn btn-sm btn btn-warning" onclick="irParaReservaEscpaco(${e.espaco_id})">Reservar</button>
-        <button type="button" class="btn btn-sm btn-primary" onclick="irParaEditEscpaco(${e.espaco_id})">Editar</button>
-        <button type="button" class="btn btn-sm btn-danger" onclick="irParaDeletarEspaco(${e.espaco_id})">Deletar</button>
+        <button type="button" class="btn btn-sm btn btn-warning" onclick="irParaReservaEscpaco(${
+          e.espaco_id
+        })">Reservar</button>
+        ${
+          tipo === "Operador"
+            ? `<button type="button" class="btn btn-sm btn-primary" onclick="irParaEditEscpaco(${e.espaco_id})">Editar</button>
+        <button type="button" class="btn btn-sm btn-danger" onclick="irParaDeletarEspaco(${e.espaco_id})">Deletar</button>`
+            : ""
+        }
       </div>
     </div>
   </div>`;
