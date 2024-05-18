@@ -4,13 +4,31 @@
       Reservas | Grupo O
     </a>
 
-    <div class="text-end">
+    <div class="text-end" id="divBtns">
       <% if (locals.currentUrl !== '/login' && locals.currentUrl !== '/cadastro') { %>
-        <a href="/cadastro" type="button" class="btn btn-outline-light me-2">Cadastre-se</a>
+        <a href="/cadastro" type="button" class="btn btn-outline-light me-2">Minhas reservas</a>
         <a href="/login" type="button" class="btn btn-warning">Sair</a>
       <% } %>
     </div>
 </header>
 </div>
+
+<script>
+  function verificaAdm(){
+    const tipo = localStorage.getItem("tipo")
+      let div= document.getElementById("divBtns")
+    if(tipo==="Admin"){
+      const adminBtn = document.createElement("a");
+      adminBtn.href = "/addEspaco";
+      adminBtn.type = "button";
+      adminBtn.className = "btn btn-primary me-2";
+      adminBtn.textContent = "Criar Espaço";
+
+      div.insertBefore(adminBtn, div.firstChild);
+    }
+  }
+
+  verificaAdm()
+  </script>
 
 

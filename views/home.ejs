@@ -1,10 +1,5 @@
 
-<div class="col">
-  <div class="text-end">
-  <button onclick="irParaAddEscpaco()" class="btn btn-dark btn-sm">Adicionar espaço</button>
-  <button class="btn btn-dark btn-sm">Minhas reservas</button>
-</div>
-</div>
+
 
 <div class="container-fluid container-fluid-custom pb-5 mb-5">
 <h3>Espaços</h3>
@@ -14,13 +9,6 @@
 </div>
 
 <script>
-  function verificaLoggado(){
-    const logado = localStorage.getItem("token")
-    if(!logado){
-      irParaLogin()
-    }
-    return;
-  }
-  verificaLoggado()
+  verificaLogado()
   lerEspacos()
 </script>

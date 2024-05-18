@@ -2,7 +2,7 @@ import {Router} from "express";
 import middleware from "../controllers/middleware.js";
 const router = Router();
 
-router.get("/", middleware.isLogged, (req, res) => {
+router.get("/", (req, res) => {
   const locals = {
     title: "Reservas | Grupo O",
     description: "Página de Reservas",

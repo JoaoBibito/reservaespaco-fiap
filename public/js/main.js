@@ -2,6 +2,8 @@ function irParaAddEspaco() {
   window.location.href = "/addEspaco";
 }
 async function irParaLogin() {
+  localStorage.removeItem("token");
+  localStorage.removeItem("tipo");
   window.location.href = `/login`;
 }
 
@@ -18,7 +20,14 @@ async function irParaReservaEscpaco(id) {
 }
 
 async function irParaHome() {
-  window.location.href = `/`;
+  window.location.href = "/";
+  // const token = localStorage.getItem("token");
+  // fetch("/", {
+  //   method: "Post",
+  //   headers: {
+  //     Authorization: `Bearer ${token}`,
+  //   },
+  //});
 }
 
 async function irParaCadastro() {
@@ -39,7 +48,7 @@ async function EfetuaLogin(event) {
   });
   const data = await response.json();
   localStorage.setItem("token", data.token);
-  localStorage.setItem("tipo ", data.user_tipo);
+  localStorage.setItem("tipo", data.user_tipo);
 
   if (!data.nome) {
     const divErro = document.querySelector(".divErro");
@@ -49,9 +58,36 @@ async function EfetuaLogin(event) {
     setTimeout(() => {
       divErro.style.display = "none";
     }, 2000);
+    return;
   }
 
   irParaHome();
+}
+
+async function verificaLogado() {
+  const token = localStorage.getItem("token");
+  if (!token) {
+    localStorage.clear();
+    irParaLogin();
+    return;
+  }
+
+  const response = await fetch("/verificaUser", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({token: token}),
+  });
+  const user = await response.json();
+  if (!user) {
+    localStorage.clear();
+    irParaLogin();
+  }
+  if (!user.user_nome || !user.user_id | !user.user_tipo) {
+    localStorage.clear();
+    irParaLogin();
+  }
 }
 
 async function cadastraUser(event) {
@@ -210,7 +246,7 @@ async function lerEspacos() {
           e.espaco_id
         })">Reservar</button>
         ${
-          tipo === "Operador"
+          tipo === "Admin"
             ? `<button type="button" class="btn btn-sm btn-primary" onclick="irParaEditEscpaco(${e.espaco_id})">Editar</button>
         <button type="button" class="btn btn-sm btn-danger" onclick="irParaDeletarEspaco(${e.espaco_id})">Deletar</button>`
             : ""
@@ -219,6 +255,18 @@ async function lerEspacos() {
     </div>
   </div>`;
   }
+}
+
+async function lerMinhasReservas() {
+  const tk = localStorage.getItem("token");
+
+  const response = await fetch("/minhasReservas", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  console.log(token);
 }
 
 async function reservaEspaco(event) {
@@ -262,7 +310,6 @@ async function reservaEspaco(event) {
     alert(data.err);
   }
 
-  console.log("data", data);
   alert(data.res);
   setTimeout(() => {
     irParaHome();

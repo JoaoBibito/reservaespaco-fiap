@@ -1,6 +1,8 @@
 import user from "../models/user.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import dotenv from "dotenv";
+dotenv.config();
 
 const loginUser = async (req, res) => {
   const {email, senha} = req.body;
@@ -93,7 +95,31 @@ async function geraToken(data) {
   );
   return token;
 }
+async function verificaLogado(req, res) {
+  const {token} = req.body;
+  let logado = jwt.verify(token, process.env.SECRET_JWT);
+  return res.status(200).send(logado);
+}
+async function viewLerMinhasReservas(req, res) {
+  const locals = {
+    title: "Reservas | Grupo O",
+    description: "Página de Login",
+  };
+  return res.render("minhasReservas", locals);
+}
+
+async function lerMinhasReservas(req, res) {
+  const {token} = req.body;
+
+  const user = jwt.verify(token, process.env.SECRET_WT);
+
+  console.log("USER", user);
+}
+
 export default {
   loginUser,
   createUser,
+  verificaLogado,
+  lerMinhasReservas,
+  viewLerMinhasReservas,
 };
