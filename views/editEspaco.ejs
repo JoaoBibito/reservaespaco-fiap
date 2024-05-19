@@ -1,34 +1,35 @@
+<div class="modal modal-sheet position-static d-block p-4 py-md-5" tabindex="-1" role="dialog" id="modalSignin">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content rounded-4 shadow">
+      <div class="modal-header p-5 pb-4 border-bottom-0">
+        <h1 class="fw-bold mb-0 fs-2">Edição de Espaço</h1>
+      </div>
 
-<h1>Edição de Espaço</h1>
-<div id="divForm">
-  <form id="form" onsubmit="enviaForm(event)"  > 
-    <div class="label-float">
-      <input type="text" id="nome" name="nome" required placeholder =""/>
-      <label id="lblNome">Nome</label>
+      <div class="modal-body p-5 pt-0" id="divForm">
+        <form  id="form" onsubmit="enviaForm(event)" class="position-relative">
+          <div class="form-group mb-4">
+            <input type="text" class="form-control rounded-2" placeholder="Nome" id="nome" name="nome"/>
+          </div>
+          <div class="form-group mb-4">
+            <input type="text" class="form-control rounded-2" placeholder="Descrição" id="descricao" name="descricao"/>
+          </div>
+          <div class="form-group mb-4">
+            <input type="text" class="form-control rounded-2" placeholder="Capacidade" id="capacidade" name="capacidade"/>
+          </div>
+          <div class="form-group mb-4">
+            <input type="text" class="form-control rounded-2" placeholder="Local" id="local" name="local" />
+          </div>
+          <div class="form-group mb-4">
+            <input type="text" class="form-control rounded-2" placeholder="Link imagem" id="img" name="img"/>
+          </div>
+          <div class="divErro" role="alert"></div>
+          <div class="form-group">
+            <button type="submit" class="w-100 btn btn-outline-dark btn-md">Atualizar</button>
+          </div>
+        </form>
+      </div>
     </div>
-    <div class="label-float">
-      <input type="text" id="descricao" name="descricao" required/>
-      <label id="lblDesc">Descrição</label>
-    </div>
-    <div class="label-float">
-      <input type="text" id="capacidade" name="capacidade" required placeholder =""/>
-      <label id="lblCapacidade">Capacidade</label>
-    </div>
-    <div class="label-float">
-      <input type="text" id="local" name="local" required placeholder =""/>
-      <label id="lblLocal">Local</label>
-    </div>
-    <div class="label-float">
-      <input type="text" id="img" name="img" required placeholder =""/>
-      <label id="lblLocal">Link Imagem</label>
-    </div>
-    <div class="divErro"></div>
-
-    <div style="display: flex;flex-direction: row; justify-content: space-around; margin-top: 2em;">
-       <button type="button" onclick="irParaHome()">Home</button>
-       <button type="submit">Editar</button>
-    </div>     
-  </form>
+  </div>
 </div>
 
 <script>
