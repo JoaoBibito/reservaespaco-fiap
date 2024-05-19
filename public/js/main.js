@@ -21,13 +21,6 @@ async function irParaReservaEscpaco(id) {
 
 async function irParaHome() {
   window.location.href = "/";
-  // const token = localStorage.getItem("token");
-  // fetch("/", {
-  //   method: "Post",
-  //   headers: {
-  //     Authorization: `Bearer ${token}`,
-  //   },
-  //});
 }
 
 async function irParaCadastro() {
@@ -247,7 +240,7 @@ async function lerEspacos() {
         })">Reservar</button>
         ${
           tipo === "Admin"
-            ? `<button type="button" class="btn btn-sm btn-primary" onclick="irParaEditEscpaco(${e.espaco_id})">Editar</button>
+            ? `<button type="button" class="btn btn-sm btn-primary" onclick="irParaEditEspaco(${e.espaco_id})">Editar</button>
         <button type="button" class="btn btn-sm btn-danger" onclick="irParaDeletarEspaco(${e.espaco_id})">Deletar</button>`
             : ""
         }
