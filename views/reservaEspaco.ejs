@@ -154,9 +154,8 @@
 
     async function MostraHorarios(info){
       
-      const id = '<%= id %>';
+      const id = "<%= id %>";
       document.getElementById("diaSelecionado").value = info.startStr;
-      
 
       const response = await fetch("/buscaReservaPorDia",{
         method:"POST",
@@ -204,6 +203,7 @@
 
 <body>
   <script>
+    verificaLogado()
     async function BuscaEspaco(){
      const id = '<%= id %>';
    
@@ -228,7 +228,7 @@
      <div id="reservar">
       <h5>Reservar</h5>
       <div id="divForm">
-        <form id="form" onsubmit="reservaEspaco(event)"  >          
+        <form id="form" onsubmit="enviaForm(event)"  >          
           <div class="label-float">
             <input type="" id="descricao" name="descricao" required/>
             <label id="lblDesc">Descrição</label>
@@ -258,54 +258,9 @@
    </div>
 </body>
 <script>
-  async function enviaForm(){
-    event.preventDefault()
-
-    let dtInicio = document.getElementById("dtInicio").value
-    let dtFim = document.getElementById("dtFim").value
-    const dia = document.getElementById("diaSelecionado").value 
-    const espaco_id ="<%= id %>"
-    const user_id = localStorage.getItem("user_id")
-
-    if(dtInicio>dtFim){
-      alert("Hora de inicio tem que ser menor que hora final ")
-    }
-
-    const inicio = new Date(`${dia}T${dtInicio}`);
-    const fim = new Date(`${dia}T${dtFim}`);
-    const diferencaEmMS = Math.abs(fim - inicio);
-    const diferencaEmHs = diferencaEmMS / (1000 * 60 * 60);
-    if (diferencaEmHs < 1 || diferencaEmHs > 8) {
-        alert("Reserva tem que ser maior que 1 hora e menor que 8 horas.");
-    } 
-
-    let form = document.getElementById("form");
-  const formData = new FormData(form);
-  formData.append("espaco_id", espaco_id);
-  formData.append("user_id", user_id);
-  formData.append("dia", dia);
-
-
-
-    const res = await fetch("/reservaEspaco",{
-      method:"POST",
-       headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-      body:new URLSearchParams(formData).toString(),
-    });
-
-    const data = await res.json();
-
-    if(data.err){
-      alert(data.err)
-    }
-
-    console.log("data",data)
-    alert(data)
-    setTimeout(() => {
-      irParaHome()
-    }, 2000);
-}
-</script>
+  async function enviaForm(event){
+    const id ="<%= id %>"
+    reservaEspaco(event ,id)
+  }
+    </script>
 </html>
