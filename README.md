@@ -46,7 +46,8 @@ Projeto desenvolvido para facilitar reservas de determinados espaços e evitar c
    ```
 
 ## Estrutura do projeto
-
+```shell
+  $ tree
 ├── controllers
 │ ├── espacoController.js
 │ ├── middleware.js
@@ -93,7 +94,7 @@ Projeto desenvolvido para facilitar reservas de determinados espaços e evitar c
 ├── peckage-lock.json
 ├── peckage.json
 ├── README.md
-
+```
 ### Documentação de pastas
 
 #### Estrutura do Projeto
