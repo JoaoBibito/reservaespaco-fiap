@@ -60,15 +60,15 @@ const viewEditEspaco = async (req, res) => {
 };
 
 const editEspaco = async (req, res) => {
-  const {id, nome, descricao, local, capacidade} = req.body;
+  const {id, nome, descricao, local, capacidade, img} = req.body;
 
-  console.log("oi", id, nome, descricao, local, capacidade);
-  if (!id || !nome || !descricao || !local || !capacidade) {
+  console.log("oi", id, nome, descricao, local, capacidade, img);
+  if (!id || !nome || !descricao || !local || !capacidade || !img) {
     return res.status(400).json({err: "Preencha todos os campos!"});
   }
 
   const editado = await espaco.update(
-    {nome, descricao, local, capacidade},
+    {nome, descricao, local, capacidade, imagem: img},
     {where: {espaco_id: id}}
   );
 
