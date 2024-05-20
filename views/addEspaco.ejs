@@ -1,46 +1,33 @@
-<div class="modal modal-sheet position-static d-block p-4 py-md-5" tabindex="-1" role="dialog" id="modalSignin">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content rounded-4 shadow">
-    <div class="modal-header p-5 pb-4 border-bottom-0">
-      <h1 class="fw-bold mb-0 fs-2">Adicionar Espaço</h1>
+<h1>Cadastro de Espaço</h1>
+<div id="divForm">
+  <form id="form" onsubmit="addEspaco(event)"  > 
+    <div class="label-float">
+      <input type="text" id="nome" name="nome" required placeholder =""/>
+      <label id="lblNome">Nome</label>
     </div>
-      <div class="modal-body p-2 pt-0" id="divForm">
-          <form class="modal-body p-2 pt-0" id="form" onsubmit="addEspaco(event)"  > 
+    <div class="label-float">
+      <input type="text" id="descricao" name="descricao" required/>
+      <label id="lblDesc">Descrição</label>
+    </div>
+    <div class="label-float">
+      <input type="text" id="capacidade" name="capacidade" required placeholder =""/>
+      <label id="lblCapacidade">Capacidade</label>
+    </div>
+    <div class="label-float">
+      <input type="text" id="local" name="local" required placeholder =""/>
+      <label id="lblLocal">Local</label>
+    </div>
+    <div class="label-float">
+      <input type="text" id="img" name="img" required placeholder =""/>
+      <label id="lblimg">Link imagem</label>
+    </div>
+    <div class="divErro"></div>
 
-            <div class="form-floating mb-3">
-              <input class="form-control rounded-3"  type="text" id="nome" name="nome" required placeholder =""/>
-              <label id="lblNome">Nome</label>
-            </div>
-
-            <div class="form-floating mb-3">
-              <input class="form-control rounded-3"  type="text" id="descricao" name="descricao" required placeholder=""/>
-              <label id="lblDesc">Descrição</label>
-            </div>
-
-            <div class="form-floating mb-3">
-              <input class="form-control rounded-3"  type="text" id="capacidade" name="capacidade" required placeholder =""/>
-              <label id="lblCapacidade">Capacidade</label>
-            </div>
-            
-            <div class="form-floating mb-3">
-              <input class="form-control rounded-3"  type="text" id="local" name="local" required placeholder =""/>
-              <label id="lblLocal">Local</label>
-            </div>
-            <div class="form-floating mb-3">
-              <input class="form-control rounded-3"  type="text" id="img" name="img" required placeholder =""/>
-              <label id="lblimg">Link imagem</label>
-            </div>
-            <div class="divErro"></div>
-
-            <div style="display: flex;flex-direction: row; justify-content: space-around; margin-top: 2em;">
-                <button class="btn btn-outline-dark btn-md" type="submit">Criar</button>
-                <button class="btn btn-outline-dark btn-md" type="button" onclick="irParaHome()">Home</button>
-            </div>     
-          </form>
-        </div>
+    <div style="display: flex;flex-direction: row; justify-content: space-around; margin-top: 2em;">
+        <button type="submit">Criar</button>
+         <button type="button" onclick="irParaHome()">Home</button>
+    </div>     
+  </form>
 </div>
 
 
-
-</div>
-</div>
