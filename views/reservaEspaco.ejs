@@ -9,8 +9,7 @@
     display: flex;
     flex-direction: row;
     width: 95%;
-    margin: 0 auto;
-    border: 1px solid red;
+    margin: 10px auto;
     }
     #reservar{
       width: 48%;
@@ -21,13 +20,14 @@
     align-items: center;
   }
   #horarios{
-  width: 48%;
+  width: 30%;
+    padding: 5px;
   display: flex;
   flex-direction: column;
+  margin-top: 10px;
   }
     .divForm{
       padding: 3em;
-      border:gray solid 1px;
       border-radius: .5em
     }
     
@@ -179,8 +179,8 @@
 
     
         horarios.innerHTML +=`
-        <div class="card">
-          <h5>Descrição</h5>
+        <div class="card p-1">
+          <h5>Reservado</h5>
           ${dtInicio} --- 
           ${dtFim}
         </div>
@@ -188,16 +188,7 @@
       })
     } 
   
-    function formataData(dt){
-      const data = new Date(dt);
-  const dia = ("0" + data.getDate()).slice(-2);
-  const mes = ("0" + (data.getMonth() + 1)).slice(-2);
-  const ano = data.getFullYear();
-  const horas = ("0" + data.getHours()).slice(-2);
-  const minutos = ("0" + data.getMinutes()).slice(-2);
-  
-  return `${horas}:${minutos}`;
-    }
+ 
   </script>
 </head>
 
@@ -228,26 +219,26 @@
      <div id="reservar">
       <h5>Reservar</h5>
       <div id="divForm">
-        <form id="form" onsubmit="enviaForm(event)"  >          
-          <div class="label-float">
-            <input type="" id="descricao" name="descricao" required/>
+        <form class="modal-body p-2 pt-0" id="form" onsubmit="enviaForm(event)"  >          
+          <div class="form-floating mb-3">
+            <input class="form-control rounded-3" type="" id="descricao" name="descricao" required/>
             <label id="lblDesc">Descrição</label>
           </div>
-          <div class="label-float">
-            <input type="time" name="reserva_inicio" id="dtInicio" >
+          <div class="form-floating mb-3">
+            <input class="form-control rounded-3" type="time" name="reserva_inicio" id="dtInicio" >
 
             <label id="lblInicio">Inicio</label>
           </div>
-          <div class="label-float">
-            <input type="time" name="reserva_fim" id="dtFim" >
+          <div class="form-floating mb-3">
+            <input class="form-control rounded-3" type="time" name="reserva_fim" id="dtFim" >
             <label id="lblFim">Final</label>
           </div>
           <input type="hidden" id="diaSelecionado" name="diaSelecionado">
           <div class="divErro"></div>
     
           <div style="display: flex;flex-direction: row; justify-content: space-around; margin-top: 2em;">
-             <button type="submit">Reservar</button>
-             <button type="button" onclick="irParaHome()">Limpar</button>
+             <button class="btn btn-outline-dark btn-md"  type="submit">Reservar</button>
+             <button class="btn btn-outline-dark btn-md"  type="button" onclick="irParaHome()">Limpar</button>
              
           </div>     
         </form>
@@ -258,6 +249,7 @@
    </div>
 </body>
 <script>
+  verificaLogado();
   async function enviaForm(event){
     const id ="<%= id %>"
     reservaEspaco(event ,id)

@@ -116,12 +116,9 @@ async function lerMinhasReservas(req, res) {
     where: {
       user_id: user.user_id,
     },
+    order: [["reserva_id", "DESC"]],
   });
-
-  console.log("res", response);
-  console.log("res1", response.length);
-  console.log("res2", response[0]);
-  console.log("res3", response[3]);
+  return res.status(200).json(response);
 }
 
 export default {

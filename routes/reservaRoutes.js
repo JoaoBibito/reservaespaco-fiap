@@ -27,4 +27,9 @@ router.post(
   reservaController.buscaReservaPorDia
 );
 
+router.post("/lerReserva", reservaController.lerReserva);
+
+router.get("/deletReserva/:id", reservaController.viewDeletReserva);
+router.post("/deletReserva", reservaController.deletReserva);
+
 export default router;

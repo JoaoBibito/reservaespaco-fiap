@@ -2,6 +2,8 @@ import sequelize from "../models/config.js";
 import {Sequelize} from "sequelize";
 import reserva from "../models/reserva.js";
 import jwt from "jsonwebtoken";
+import dotenv from "dotenv";
+dotenv.config();
 
 const viewReservaEspaco = (req, res) => {
   const {id} = req.params;
@@ -107,9 +109,58 @@ const buscaReservaPorDia = async (req, res) => {
   res.status(200).send(reservas);
 };
 
+const lerReserva = async (req, res) => {
+  const {reserva_id} = req.body;
+  if (!reserva_id) {
+    return res.status(500).json({err: "Preencha todos os campos."});
+  }
+
+  const response = await reserva.findOne({
+    where: {
+      reserva_id: reserva_id,
+    },
+  });
+
+  return res.status(200).json(response);
+};
+
+const viewDeletReserva = async (req, res) => {
+  const {id} = req.params;
+  const locals = {
+    title: "Reservas | Grupo O",
+    description: "Página de exclusão de reserva",
+    id: id,
+  };
+  return res.render("deletReserva", locals);
+};
+
+const deletReserva = async (req, res) => {
+  const {reserva_id, token} = req.body;
+  const user = jwt.verify(token, process.env.SECRET_JWT);
+  if (!reserva_id) {
+    return res.status(500).json({err: "Preencha todos os campos."});
+  }
+
+  const response = await reserva.destroy({
+    where: {
+      reserva_id: reserva_id,
+      user_id: user.user_id,
+    },
+  });
+
+  if (!response) {
+    return res.status(500).json({err: "Não foi possível deletar reserva."});
+  }
+
+  return res.status(200).json(response);
+};
+
 export default {
   viewReservaEspaco,
   reservaEspaco,
   buscaReservasPorEspaco,
   buscaReservaPorDia,
+  lerReserva,
+  viewDeletReserva,
+  deletReserva,
 };

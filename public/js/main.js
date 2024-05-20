@@ -15,7 +15,7 @@ async function irParaDeletarEspaco(id) {
   window.location.href = `/deletEspaco/${id}`;
 }
 
-async function irParaReservaEscpaco(id) {
+async function irParaReservaEspaco(id) {
   window.location.href = `/reservaEspaco/${id}`;
 }
 
@@ -27,9 +27,27 @@ async function irParaCadastro() {
   window.location.href = `/cadastro`;
 }
 
+async function irParaDeletReserva(id) {
+  window.location.href = `/deletReserva/${id}`;
+}
+
+async function irParaMinhasReservas() {
+  window.location.href = `/minhasReservas`;
+}
 function limpaStorage() {
   localStorage.removeItem("tipo");
   localStorage.removeItem("token");
+}
+
+function formataData(dt) {
+  const data = new Date(dt);
+  const dia = ("0" + data.getDate()).slice(-2);
+  const mes = ("0" + (data.getMonth() + 1)).slice(-2);
+  const ano = data.getFullYear();
+  const horas = ("0" + data.getHours()).slice(-2);
+  const minutos = ("0" + data.getMinutes()).slice(-2);
+
+  return `${horas}:${minutos}`;
 }
 
 async function EfetuaLogin(event) {
@@ -64,7 +82,6 @@ async function EfetuaLogin(event) {
 
 async function verificaLogado() {
   const token = localStorage.getItem("token");
-  console.log("token", token);
   if (!token) {
     localStorage.clear();
     irParaLogin();
@@ -86,6 +103,13 @@ async function verificaLogado() {
   if (!user.user_nome || !user.user_id | !user.user_tipo) {
     localStorage.clear();
     irParaLogin();
+  }
+}
+
+async function somenteAdmin() {
+  localStorage.getItem("tipo");
+  if (tipo !== "Admin") {
+    irParaHome();
   }
 }
 
@@ -145,7 +169,6 @@ async function addEspaco(event) {
       body: new URLSearchParams(formData).toString(),
     });
 
-    console.log("res", response);
     const divErro = document.querySelector(".divErro");
     if (!response.ok) {
       const responseData = await response.json();
@@ -168,7 +191,6 @@ async function addEspaco(event) {
         irParaHome();
       }, 2000);
     }
-    console.log("OK");
   } catch (error) {
     console.log("Erro na requisição:", error);
   }
@@ -241,7 +263,7 @@ async function lerEspacos() {
         <h5 class="card-title">${e.descricao}</h5>
         <p class="card-text fw-bold"><p>${e.local}</p>
         <div>
-        <button type="button" class="btn btn-sm btn btn-warning" onclick="irParaReservaEscpaco(${
+        <button type="button" class="btn btn-sm btn btn-warning" onclick="irParaReservaEspaco(${
           e.espaco_id
         })">Reservar</button>
         ${
@@ -307,7 +329,6 @@ async function reservaEspaco(event, espaco_id) {
 
 async function lerMinhasReservas() {
   const tk = localStorage.getItem("token");
-
   const response = await fetch("/minhasReservas", {
     method: "POST",
     headers: {
@@ -315,7 +336,87 @@ async function lerMinhasReservas() {
     },
     body: JSON.stringify({token: tk}),
   });
-
   const reservas = await response.json();
-  console.log("reservas", reservas);
+  const div = document.getElementById("minhasReservas");
+  div.innerHTML = "";
+
+  return reservas.map((i) => {
+    let inicio = formataData(i.reserva_inicio);
+    let fim = formataData(i.reserva_fim);
+
+    const data = new Date(i.reserva_inicio);
+    const dia = ("0" + data.getDate()).slice(-2);
+    const mes = ("0" + (data.getMonth() + 1)).slice(-2);
+    const ano = data.getFullYear();
+
+    div.innerHTML += `
+      <div class="col-sm-3 mb-4">
+        <div class="card border-primary card-body">
+          <h3>${i.descricao}</h3>
+          <p class="card-text fw-bold">Reserva dia: ${dia}/${mes}/${ano}</p>
+          <p class="card-text fw-bold">Das: ${inicio} - às ${fim}</p>
+          <button type="button" class="btn btn-sm btn-danger" onclick="irParaDeletReserva(${i.reserva_id})">Deletar</button>
+        </div>
+      </div>`;
+  });
+}
+
+async function lerReserva(reserva_id) {
+  if (!reserva_id) {
+    return;
+  }
+  const response = await fetch("/lerReserva", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({reserva_id: reserva_id}),
+  });
+  const reserva = await response.json();
+
+  if (!reserva) {
+    irParaMinhasReservas();
+  }
+  document.getElementById("descricao").value = reserva.descricao;
+  document.getElementById("inicio").value = formataData(reserva.reserva_inicio);
+  document.getElementById("fim").value = formataData(reserva.reserva_fim);
+  return reserva;
+}
+
+async function deletReserva(event, reserva_id) {
+  event.preventDefault();
+  if (!reserva_id) return;
+
+  const token = localStorage.getItem("token");
+  console.log();
+  const response = await fetch("/deletReserva", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({token: token, reserva_id: reserva_id}),
+  });
+  const divErro = document.getElementById("divErro");
+  const data = await response.json();
+  if (data === 1) {
+  }
+  if (data !== 1) {
+    divErro.innerHTML = "Não foi possível deletar a reserva";
+    divErro.style.display = "flex";
+
+    setTimeout(() => {
+      divErro.innerHTML = "";
+      divErro.style.display = "none";
+    }, 2000);
+  } else {
+    divErro.innerHTML = "Reserva deletada";
+    divErro.style.background = "green";
+    divErro.style.display = "flex";
+
+    setTimeout(() => {
+      divErro.innerHTML = "";
+      divErro.style.display = "none";
+      irParaHome();
+    }, 2000);
+  }
 }

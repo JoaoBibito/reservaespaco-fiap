@@ -41,6 +41,8 @@
 
 
 <script>
+ verificaLogado();
+ somenteAdmin()
   async function lerEspaco(){
     const id ="<%= id %>"
     const espaco =await BuscaEspaco(id)

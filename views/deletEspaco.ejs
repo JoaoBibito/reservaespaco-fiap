@@ -7,7 +7,7 @@
 </div>
 
   <div class="modal-body p-5 pt-0"  id="divForm">
-    <form id="form" onsubmit="enviaForm()"  > 
+    <form id="form" onsubmit="enviaForm(event)"  > 
       <div  class="form-floating mb-3">
         <input class="form-control rounded-3" type="text" id="nome" name="nome" required placeholder =""/>
         <label id="lblNome">Nome</label>
@@ -35,6 +35,8 @@
 </div>
 </div>
 <script>
+  verificaLogado();
+  somenteAdmin()
    async function lerEspaco(){
     const id ="<%= id %>"
     const espaco =await BuscaEspaco(id)
