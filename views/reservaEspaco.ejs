@@ -1,257 +1,169 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Reserva espaço</title>
-  <style>
-    #divReservas{
-    display: flex;
-    flex-direction: row;
-    width: 95%;
-    margin: 10px auto;
-    }
-    #reservar{
-      width: 48%;
-    padding: 15px;
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    align-items: center;
-  }
-  #horarios{
-  width: 30%;
-    padding: 5px;
-  display: flex;
-  flex-direction: column;
-  margin-top: 10px;
-  }
-    .divForm{
-      padding: 3em;
-      border-radius: .5em
-    }
-    
-    .label-float{
-      position: relative;
-      padding-top: 10px;
-      margin-top: 5%;
-      margin-bottom: 5%;
-    }
-    .label-float input{
-      width: 100%;
-      padding: 5px 5px ;
-      display: inline-block;
-      border: 0;
-      border-bottom: 1px solid gray;
-      background-color: transparent;
-      outline: none;
-      color: white;
-      min-width: 170px;
-      transition: all .3s ease-in-out;
-      border-radius: 5%;
-    }
-    .label-float input:focus{
-    border-bottom: 2px solid gray;
-    border-radius: 10%;
-    }
-    input:-webkit-autofill{
-      -webkit-box-shadow: 0 0 0px 1000px #252525 inset;
-      background-color: transparent !important;
-      -webkit-text-fill-color: white;
-    }
-    .label-float label{
-      cursor: pointer;
-      position: absolute;
-      top:0;
-      left: 0;
-      margin-top: 10px;
-      transition: all .5s ease-in-out;
-    }
-    .label-float input:focus + label,
-    .label-float input:valid + label{
-    font-size: 13px;
-    margin-top: 0px;
-    color: gray;
-  }button{
-    background-color: transparent;
-    border: 1px solid gray;
-    color: white;
-    padding: 5px;
-  }
-  </style>
-  <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js'></script>
-  <script>
-
-    async function buscaReserva(){
-    const id = '<%= id %>';
-    const eventos = await fetch("/buscaReservasPorEspaco",{
-      method:"POST",
-      headers:{
-        "Content-Type": "application/json"
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js"></script>
+<script>
+  async function buscaReserva() {
+    const id = "<%= id %>";
+    const eventos = await fetch("/buscaReservasPorEspaco", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
       },
-      body:JSON.stringify({espaco_id:id})
-    }) 
+      body: JSON.stringify({ espaco_id: id }),
+    });
 
-    const reservas = await eventos.json()
-    return reservas.map(item=>{
+    const reservas = await eventos.json();
+    return reservas.map((item) => {
+      let dataInicioOriginal = item.reserva_inicio;
+      const data = new Date(dataInicioOriginal);
 
-  let dataInicioOriginal =  item.reserva_inicio
-  const data = new Date(dataInicioOriginal);
+      const ano = data.getFullYear();
+      const mes = ("0" + (data.getMonth() + 1)).slice(-2);
+      const dia = ("0" + data.getDate()).slice(-2);
+      const horas = ("0" + data.getHours()).slice(-2);
+      const minutos = ("0" + data.getMinutes()).slice(-2);
+      const segundos = ("0" + data.getSeconds()).slice(-2);
+      const milissegundos = ("00" + data.getMilliseconds()).slice(-3);
+      const zonaHoraria = "Z";
 
-  const ano = data.getFullYear();
-  const mes = ("0" + (data.getMonth() + 1)).slice(-2); 
-  const dia = ("0" + data.getDate()).slice(-2); 
-  const horas = ("0" + data.getHours()).slice(-2); 
-  const minutos = ("0" + data.getMinutes()).slice(-2); 
-  const segundos = ("0" + data.getSeconds()).slice(-2); 
-  const milissegundos = ("00" + data.getMilliseconds()).slice(-3); 
-  const zonaHoraria = "Z"; 
+      const dataInicioFormatada = `${ano}-${mes}-${dia}T${horas}:${minutos}:${segundos}`;
 
-  const dataInicioFormatada = `${ano}-${mes}-${dia}T${horas}:${minutos}:${segundos}`
+      let dataFimOriginal = item.reserva_fim;
+      const dataFim = new Date(dataFimOriginal);
 
+      const anoFim = data.getFullYear();
+      const mesFim = ("0" + (dataFim.getMonth() + 1)).slice(-2);
+      const diaFim = ("0" + dataFim.getDate()).slice(-2);
+      const horasFim = ("0" + dataFim.getHours()).slice(-2);
+      const minutosFim = ("0" + dataFim.getMinutes()).slice(-2);
+      const segundosFim = ("0" + dataFim.getSeconds()).slice(-2);
+      const milissegundosFim = ("00" + dataFim.getMilliseconds()).slice(-3);
+      const zonaHorariaFim = "Z";
 
-  let dataFimOriginal =  item.reserva_fim
-    const dataFim = new Date(dataFimOriginal);
+      const dataFimFormatada = `${anoFim}-${mesFim}-${diaFim}T${horasFim}:${minutosFim}:${segundosFim}`;
 
-  const anoFim = data.getFullYear();
-  const mesFim = ("0" + (dataFim.getMonth() + 1)).slice(-2); 
-  const diaFim = ("0" + dataFim.getDate()).slice(-2); 
-  const horasFim = ("0" + dataFim.getHours()).slice(-2); 
-  const minutosFim = ("0" + dataFim.getMinutes()).slice(-2); 
-  const segundosFim = ("0" + dataFim.getSeconds()).slice(-2); 
-  const milissegundosFim = ("00" + dataFim.getMilliseconds()).slice(-3); 
-  const zonaHorariaFim = "Z"; 
-
-  const dataFimFormatada = `${anoFim}-${mesFim}-${diaFim}T${horasFim}:${minutosFim}:${segundosFim}`
-
-  return {title:"",
-    start: dataInicioFormatada,
-      end: dataFimFormatada
+      return { title: "", start: dataInicioFormatada, end: dataFimFormatada };
+    });
   }
-})
-}
 
-    document.addEventListener('DOMContentLoaded', async function() {
-      const calendarEl = document.getElementById('calendar')
-      const reservas = await buscaReserva();
-      const calendar = new FullCalendar.Calendar(calendarEl, {
-      initialView: 'dayGridMonth',
+  document.addEventListener("DOMContentLoaded", async function () {
+    const calendarEl = document.getElementById("calendar");
+    const reservas = await buscaReserva();
+    const calendar = new FullCalendar.Calendar(calendarEl, {
+      initialView: "dayGridMonth",
       height: 650,
       selectable: true,
-      select: function(info) {
-        MostraHorarios(info)
+      select: function (info) {
+        MostraHorarios(info);
       },
       selectConstraint: {
-        startTime: '00:00',
-        endTime: '24:00'
+        startTime: "00:00",
+        endTime: "24:00",
       },
       events: reservas,
     });
-  
-    calendar.render()
-    })
 
+    calendar.render();
+  });
 
-    async function MostraHorarios(info){
-      
-      const id = "<%= id %>";
-      document.getElementById("diaSelecionado").value = info.startStr;
+  async function MostraHorarios(info) {
+    const id = "<%= id %>";
+    document.getElementById("diaSelecionado").value = info.startStr;
 
-      const response = await fetch("/buscaReservaPorDia",{
-        method:"POST",
-        headers:{
-          "Content-Type": "application/json"
-        },
-        body:JSON.stringify({
-          espaco_id:id,
-          dia:info.startStr
-        })
-      })
+    const response = await fetch("/buscaReservaPorDia", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        espaco_id: id,
+        dia: info.startStr,
+      }),
+    });
 
-      const reservas = await response.json()
+    const reservas = await response.json();
 
-      const horarios = document.getElementById("horarios") 
-      horarios.innerHTML=""
-      reservas.map(event =>{
+    const horarios = document.getElementById("horarios");
+    horarios.innerHTML = "";
+    reservas.map((event) => {
+      const dtInicio = formataData(event.reserva_inicio);
+      const dtFim = formataData(event.reserva_fim);
 
-        const dtInicio= formataData(event.reserva_inicio)
-        const dtFim=formataData(event.reserva_fim)
-
-    
-        horarios.innerHTML +=`
-        <div class="card p-1">
-          <h5>Horário já reservado neste dia</h5>
-          ${dtInicio} --- 
-          ${dtFim}
+      horarios.innerHTML += `
+        <div class="alert alert-info" role="alert">
+          <h5>Já reservado neste dia:</h5>
+          Das: ${dtInicio} --- às ${dtFim}
         </div>
-        `
-      })
-    } 
-  
- 
-  </script>
-</head>
-
-<body>
-  <script>
-    verificaLogado()
-    async function BuscaEspaco(){
-     const id = '<%= id %>';
-   
-     const response = await fetch("/lerEspaco",{
-       method:"POST",
-       headers:{
-         "Content-Type": "application/json"
-       },
-         body: JSON.stringify({id:id})
-     })
-     
-     const res = await response.json();
-       if(!res){
-       window.location.href="/home"
-        }
-   }
-   BuscaEspaco()
- 
-   </script>
-   <div id='calendar'></div>
-   <div id="divReservas">
-     <div id="reservar">
-      <h5>Escolha a data no calendário para reservar o espaço</h5>
-      <div id="divForm">
-        <form class="modal-body p-2 pt-0" id="form" onsubmit="enviaForm(event)"  >  
-          <div class="form-floating mb-3">
-            <input class="form-control rounded-3" type="time" name="reserva_inicio" id="dtInicio" >
-            <label id="lblInicio">Horário Início</label>
-          </div>
-          <div class="form-floating mb-3">
-            <input class="form-control rounded-3" type="time" name="reserva_fim" id="dtFim" >
-            <label id="lblFim">Horário Final</label>
-          </div>        
-          <div class="form-floating mb-3">
-            <input class="form-control rounded-3" type="" id="descricao" name="descricao" required/>
-            <label id="lblDesc">Observação</label>
-          </div>
-          <input type="hidden" id="diaSelecionado" name="diaSelecionado">
-          <div class="divErro"></div>
-    
-          <div style="display: flex;flex-direction: row; justify-content: space-around; margin-top: 2em;">
-             <button class="btn btn-primary btn-md"  type="submit">Reservar</button>
-             <button class="btn btn-secondary btn-md"  type="button" onclick="irParaHome()">Cancelar</button>
-             
-          </div>     
-        </form>
-      </div>
-    </div>
-    <div id="horarios"></div>
-   
-   </div>
-</body>
+        `;
+    });
+  }
+</script>
 <script>
   verificaLogado();
-  async function enviaForm(event){
-    const id ="<%= id %>"
-    reservaEspaco(event ,id)
+  async function BuscaEspaco() {
+    const id = "<%= id %>";
+
+    const response = await fetch("/lerEspaco", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ id: id }),
+    });
+
+    const res = await response.json();
+    if (!res) {
+      window.location.href = "/home";
+    }
   }
-    </script>
-</html>
+  BuscaEspaco();
+</script>
+<div class="card border-primary card-body" style="min-height: 210px">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-6 card-center">
+        <div id="calendar"></div>
+      </div>
+      <div class="col-md-6 card-center">
+        <div id="horarios"></div>
+        <div id="divReservas">
+          <div id="reservar">
+            <h5>Clique na data no calendário para reservar o dia</h5>
+            <div id="divForm">
+              <form class="modal-body" id="form" onsubmit="enviaForm(event)">
+                <div class="form-group form-floating mb-3">
+                  <input class="form-control rounded-3" type="time" name="reserva_inicio" id="dtInicio" />
+                  <label id="lblInicio">Indique horário inicial</label>
+                </div>
+                <div class="form-group form-floating mb-3">
+                  <input class="form-control rounded-3" type="time" name="reserva_fim" id="dtFim" />
+                  <label id="lblFim">Indique horário final</label>
+                </div>
+                <div class="form-floating mb-3">
+                  <input class="form-control rounded-3" type="" id="descricao" name="descricao" required />
+                  <label id="lblDesc">Observação</label>
+                </div>
+                <input type="hidden" id="diaSelecionado" name="diaSelecionado" />
+                <div class="divErro"></div>
+
+                <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+                  <button class="btn btn-primary btn-md" type="submit">
+                    Reservar
+                  </button>
+                  <button class="btn btn-secondary btn-md" type="button" onclick="irParaHome()">
+                    Cancelar
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <script>
+        verificaLogado();
+        async function enviaForm(event) {
+          const id = "<%= id %>";
+          reservaEspaco(event, id);
+        }
+      </script>
+    </div>
+  </div>
+</div>
