@@ -6,7 +6,7 @@
 
     <div class="text-end" id="divBtns">
       <% if (locals.currentUrl !== '/login' && locals.currentUrl !== '/cadastro') { %>
-        <a href="/minhasReservas" type="button" class="btn btn-outline-light me-2">Minhas reservas</a>
+       
         <a href="/login" type="button" class="btn btn-warning">Sair</a>
       <% } %>
     </div>
@@ -23,6 +23,15 @@
       adminBtn.type = "button";
       adminBtn.className = "btn btn-outline-light me-2";
       adminBtn.textContent = "Criar Espaço";
+
+      div.insertBefore(adminBtn, div.firstChild);
+    }
+    if(tipo==="Operador"){
+      const adminBtn = document.createElement("a");
+      adminBtn.href = "/minhasReservas";
+      adminBtn.type = "button";
+      adminBtn.className = "btn btn-outline-light me-2";
+      adminBtn.textContent = "Minhas Reservas";
 
       div.insertBefore(adminBtn, div.firstChild);
     }

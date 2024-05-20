@@ -259,18 +259,17 @@ async function lerEspacos() {
     div.innerHTML += `<div class="col-sm-3 mb-4" id="${e.espaco_id}">
     
     <div class="card border-primary card-body">
+    <img src="${e.imagem}">
       <h2>${e.nome}</h2>
         <h5 class="card-title">${e.descricao}</h5>
         <p class="card-text fw-bold"><p>${e.local}</p>
         <div>
-        <button type="button" class="btn btn-sm btn btn-warning" onclick="irParaReservaEspaco(${
-          e.espaco_id
-        })">Reservar</button>
+        
         ${
           tipo === "Admin"
             ? `<button type="button" class="btn btn-sm btn-primary" onclick="irParaEditEspaco(${e.espaco_id})">Editar</button>
         <button type="button" class="btn btn-sm btn-danger" onclick="irParaDeletarEspaco(${e.espaco_id})">Deletar</button>`
-            : ""
+            : `<button type="button" class="btn btn-sm btn btn-warning" onclick="irParaReservaEspaco(${e.espaco_id})">Reservar</button>`
         }
       </div>
     </div>
