@@ -180,7 +180,7 @@
     
         horarios.innerHTML +=`
         <div class="card p-1">
-          <h5>Reservado</h5>
+          <h5>Horário já reservado neste dia</h5>
           ${dtInicio} --- 
           ${dtFim}
         </div>
@@ -217,28 +217,27 @@
    <div id='calendar'></div>
    <div id="divReservas">
      <div id="reservar">
-      <h5>Reservar</h5>
+      <h5>Escolha a data no calendário para reservar o espaço</h5>
       <div id="divForm">
-        <form class="modal-body p-2 pt-0" id="form" onsubmit="enviaForm(event)"  >          
-          <div class="form-floating mb-3">
-            <input class="form-control rounded-3" type="" id="descricao" name="descricao" required/>
-            <label id="lblDesc">Descrição</label>
-          </div>
+        <form class="modal-body p-2 pt-0" id="form" onsubmit="enviaForm(event)"  >  
           <div class="form-floating mb-3">
             <input class="form-control rounded-3" type="time" name="reserva_inicio" id="dtInicio" >
-
-            <label id="lblInicio">Inicio</label>
+            <label id="lblInicio">Horário Início</label>
           </div>
           <div class="form-floating mb-3">
             <input class="form-control rounded-3" type="time" name="reserva_fim" id="dtFim" >
-            <label id="lblFim">Final</label>
+            <label id="lblFim">Horário Final</label>
+          </div>        
+          <div class="form-floating mb-3">
+            <input class="form-control rounded-3" type="" id="descricao" name="descricao" required/>
+            <label id="lblDesc">Observação</label>
           </div>
           <input type="hidden" id="diaSelecionado" name="diaSelecionado">
           <div class="divErro"></div>
     
           <div style="display: flex;flex-direction: row; justify-content: space-around; margin-top: 2em;">
-             <button class="btn btn-outline-dark btn-md"  type="submit">Reservar</button>
-             <button class="btn btn-outline-dark btn-md"  type="button" onclick="irParaHome()">Limpar</button>
+             <button class="btn btn-primary btn-md"  type="submit">Reservar</button>
+             <button class="btn btn-secondary btn-md"  type="button" onclick="irParaHome()">Cancelar</button>
              
           </div>     
         </form>
