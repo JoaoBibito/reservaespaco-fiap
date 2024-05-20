@@ -261,8 +261,9 @@ async function lerEspacos() {
     <div class="card border-primary card-body">
     <img src="${e.imagem}">
       <h2>${e.nome}</h2>
+      <p class="card-text fw-bold">Capacidade: ${e.capacidade} pessoas</p>
         <h5 class="card-title">${e.descricao}</h5>
-        <p class="card-text fw-bold"><p>${e.local}</p>
+        <p class="card-text">${e.local}</p>
         <div>
         
         ${
