@@ -28,6 +28,8 @@ router.post(
 );
 
 router.post("/lerReserva", reservaController.lerReserva);
+router.get("/todasReservas", reservaController.viewTodasReservas);
+router.post("/todasReservas", reservaController.todasReservas);
 
 router.get("/deletReserva/:id", reservaController.viewDeletReserva);
 router.post("/deletReserva", reservaController.deletReserva);

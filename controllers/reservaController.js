@@ -123,7 +123,28 @@ const lerReserva = async (req, res) => {
 
   return res.status(200).json(response);
 };
+const viewTodasReservas = async (req, res) => {
+  const locals = {
+    title: "Reservas | Grupo O",
+    description: "Página de todas reservas",
+  };
+  return res.render("todasReservas", locals);
+};
 
+const todasReservas = async (req, res) => {
+  const {token} = req.body;
+  const user = await jwt.verify(token, process.env.SECRET_JWT);
+
+  if (user.user_tipo !== "Admin") {
+    return res
+      .status(401)
+      .json({err: "Somente Administrador pode ver todas reservas."});
+  }
+
+  const response = await reserva.findAll({order: [["reserva_id", "DESC"]]});
+  console.log("IYgouaifunerlifqerf", response);
+  return res.status(200).json(response);
+};
 const viewDeletReserva = async (req, res) => {
   const {id} = req.params;
   const locals = {
@@ -144,7 +165,6 @@ const deletReserva = async (req, res) => {
   const response = await reserva.destroy({
     where: {
       reserva_id: reserva_id,
-      user_id: user.user_id,
     },
   });
 
@@ -161,6 +181,8 @@ export default {
   buscaReservasPorEspaco,
   buscaReservaPorDia,
   lerReserva,
+  viewTodasReservas,
+  todasReservas,
   viewDeletReserva,
   deletReserva,
 };

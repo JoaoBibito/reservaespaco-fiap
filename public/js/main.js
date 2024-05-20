@@ -360,6 +360,39 @@ async function lerMinhasReservas() {
       </div>`;
   });
 }
+async function lerTodasReservas() {
+  const tk = localStorage.getItem("token");
+  const response = await fetch("/todasReservas", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({token: tk}),
+  });
+  const reservas = await response.json();
+  const div = document.getElementById("minhasReservas");
+  div.innerHTML = "";
+
+  return reservas.map((i) => {
+    let inicio = formataData(i.reserva_inicio);
+    let fim = formataData(i.reserva_fim);
+
+    const data = new Date(i.reserva_inicio);
+    const dia = ("0" + data.getDate()).slice(-2);
+    const mes = ("0" + (data.getMonth() + 1)).slice(-2);
+    const ano = data.getFullYear();
+
+    div.innerHTML += `
+      <div class="col-sm-3 mb-4">
+        <div class="card border-primary card-body">
+          <h3>${i.descricao}</h3>
+          <p class="card-text fw-bold">Reserva dia: ${dia}/${mes}/${ano}</p>
+          <p class="card-text fw-bold">Das: ${inicio} - às ${fim}</p>
+          <button type="button" class="btn btn-sm btn-danger" onclick="irParaDeletReserva(${i.reserva_id})">Deletar</button>
+        </div>
+      </div>`;
+  });
+}
 
 async function lerReserva(reserva_id) {
   if (!reserva_id) {

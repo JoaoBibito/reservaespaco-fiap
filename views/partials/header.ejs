@@ -25,6 +25,15 @@
       adminBtn.textContent = "Criar Espaço";
 
       div.insertBefore(adminBtn, div.firstChild);
+
+
+      const reservas = document.createElement("a");
+      reservas.href = "/todasReservas";
+      reservas.type = "button";
+      reservas.className = "btn btn-outline-light me-2";
+      reservas.textContent = "Todas Reservas";
+
+      div.insertBefore(reservas, div.firstChild);
     }
     if(tipo==="Operador"){
       const adminBtn = document.createElement("a");
