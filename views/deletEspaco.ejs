@@ -53,45 +53,42 @@
     window.location.href="/"
   } 
 
-  async function enviaForm(){
-    event.preventDefault()
-    let form =document.getElementById("form");
-    const formData = new FormData(form)    
-    const id = '<%= id %>';
-    formData.append("id",id)
-  
-    const response = await fetch("/deletEspaco",{
-      method:"POST",
+  async function enviaForm() {
+    event.preventDefault();
+    let form = document.getElementById("form");
+    const formData = new FormData(form);
+    const id = "<%= id %>";
+    formData.append("id", id);
+
+    const response = await fetch("/deletEspaco", {
+      method: "POST",
       headers: {
-        "Content-Type": "application/x-www-form-urlencoded"
-        },
-        body: new URLSearchParams(formData).toString()
-    })
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      body: new URLSearchParams(formData).toString(),
+    });
     const divErro = document.querySelector(".divErro");
-    
-    if(!response.ok){
-    const responseData = await response.json()
+
+    if (!response.ok) {
+      const responseData = await response.json();
       const errMsg = responseData.err;
       divErro.innerHTML = errMsg;
       divErro.style.display = "flex";
 
-      setTimeout(()=>{divErro.innerHTML = "";
-      divErro.style.display = "none";},2000)
-    }
-    else{
+      setTimeout(() => {
+        divErro.innerHTML = "";
+        divErro.style.display = "none";
+      }, 2000);
+    } else {
       divErro.innerHTML = "Espaço excluido!";
-      divErro.style.background= "green";
+      divErro.style.background = "green";
       divErro.style.display = "flex";
 
-
-      setTimeout(()=>{divErro.innerHTML = "";
-      divErro.style.display = "none";
-      irParaHome();
-    },2000)
+      setTimeout(() => {
+        divErro.innerHTML = "";
+        divErro.style.display = "none";
+        irParaHome();
+      }, 2000);
     }
-    
-}
-
-  
+  }
 </script>
-</html>
