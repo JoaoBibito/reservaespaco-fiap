@@ -1,147 +1,54 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Exclui espaço</title>
-  <style>
-    body{
-      display: flex;
-      flex-direction:column;
-      align-items: center;
-      background-color: #252525;
-      margin: 0;
-      padding: 0;
-      padding-top: 1em;
-      color:white
-    }
-    .divForm{
-      padding: 3em;
-      border:gray solid 1px;
-      border-radius: .5em
-    }
-    
-    .label-float{
-      position: relative;
-      padding-top: 10px;
-      margin-top: 5%;
-      margin-bottom: 5%;
-    }
-    .label-float input{
-      width: 100%;
-      padding: 5px 5px ;
-      display: inline-block;
-      border: 0;
-      border-bottom: 1px solid gray;
-      background-color: transparent;
-      outline: none;
-      color: white;
-      min-width: 170px;
-      transition: all .3s ease-in-out;
-      border-radius: 5%;
-    }
-    .label-float input:focus{
-    border-bottom: 2px solid gray;
-    border-radius: 10%;
-    }
-    input:-webkit-autofill{
-      -webkit-box-shadow: 0 0 0px 1000px #252525 inset;
-      background-color: transparent !important;
-      -webkit-text-fill-color: white;
-    }
-    .label-float label{
-      cursor: pointer;
-      position: absolute;
-      top:0;
-      left: 0;
-      margin-top: 10px;
-      transition: all .5s ease-in-out;
-    }
-    .label-float input:focus + label,
-    .label-float input:valid + label{
-    font-size: 13px;
-    margin-top: 0px;
-    color: gray;
-  }
-    button{
-    background-color: transparent;
-    border: 1px solid gray;
-    color: white;
-    padding: 5px;
-  }
-  .divErro{
-    display: none;
-    background-color: #ffb2b2;
-    color: black;
-    font-weight: 600;
-    border-radius: 5px;;
-    width: 90%;
-    margin: 0 auto;
-    padding: 5px;
-    justify-content: center;
-    font-size: small;
-  }
-  button:hover{
-  cursor:pointer
-  }
-  </style>
-</head>
 
-<body>
-  <script>
-   async function BuscaEspaco(){
-    const id = '<%= id %>';
-  
-    const response = await fetch("/lerEspaco",{
-      method:"POST",
-      headers:{
-        "Content-Type": "application/json"
-      },
-        body: JSON.stringify({id:id})
-    })
-    
-    const res = await response.json();
-    console.log(res)
-      if(!res){
-      window.location.href="/home"
-        }
- document.getElementById("nome").value= res.nome
-    document.getElementById("descricao").value= res.descricao
-    document.getElementById("local").value= res.local
-    document.getElementById("capacidade").value= res.capacidade
-  }
-  BuscaEspaco()
+<div class="modal modal-sheet position-static d-block p-4 py-md-5" tabindex="-1" role="dialog" id="modalSignin">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content rounded-4 shadow">
+<div class="modal-header p-5 pb-4 border-bottom-0">
+  <h1 class="fw-bold mb-0 fs-2">Exclusão de espaço</h1>
+</div>
 
-  </script>
-  <h1>Exclusão de Espaço</h1>
-  <div id="divForm">
+  <div class="modal-body p-5 pt-0"  id="divForm">
     <form id="form" onsubmit="enviaForm()"  > 
-      <div class="label-float">
-        <input type="text" id="nome" name="nome" required placeholder =""/>
+      <div  class="form-floating mb-3">
+        <input class="form-control rounded-3" type="text" id="nome" name="nome" required placeholder =""/>
         <label id="lblNome">Nome</label>
       </div>
-      <div class="label-float">
-        <input type="text" id="descricao" name="descricao" required/>
+      <div  class="form-floating mb-3">
+        <input class="form-control rounded-3" type="text" id="descricao" name="descricao" required placeholder=""/>
         <label id="lblDesc">Descrição</label>
       </div>
-      <div class="label-float">
-        <input type="text" id="capacidade" name="capacidade" required placeholder =""/>
+      <div  class="form-floating mb-3">
+        <input class="form-control rounded-3" type="text" id="capacidade" name="capacidade" required placeholder =""/>
         <label id="lblCapacidade">Capacidade</label>
       </div>
-      <div class="label-float">
-        <input type="text" id="local" name="local" required placeholder =""/>
+      <div  class="form-floating mb-3">
+        <input class="form-control rounded-3" type="text" id="local" name="local" required placeholder =""/>
         <label id="lblLocal">Local</label>
       </div>
       <div class="divErro"></div>
 
       <div style="display: flex;flex-direction: row; justify-content: space-around; margin-top: 2em;">
-         <button type="button" onclick="irParaHome()">Home</button>
-         <button type="submit">Excluir</button>
+         <button type="button"  class="btn btn-outline-dark btn-md" onclick="irParaHome()">Home</button>
+         <button  class="btn btn-outline-dark btn-md" type="submit">Excluir</button>
       </div>     
     </form>
   </div>
-</body>
+</div>
+</div>
 <script>
+   async function lerEspaco(){
+    const id ="<%= id %>"
+    const espaco =await BuscaEspaco(id)
+
+    if (!espaco) {
+    window.location.href = "/home";
+  }
+    document.getElementById("nome").value = espaco.nome;
+    document.getElementById("descricao").value = espaco.descricao;
+    document.getElementById("local").value = espaco.local;
+    document.getElementById("capacidade").value = espaco.capacidade;
+    document.getElementById("img").value = espaco.imagem;
+  }
+  lerEspaco()
   function irParaHome(){
     window.location.href="/"
   } 

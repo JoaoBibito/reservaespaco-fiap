@@ -1,42 +1,58 @@
 import sequelize from "../models/config.js";
 import {Sequelize} from "sequelize";
 import reserva from "../models/reserva.js";
+import jwt from "jsonwebtoken";
 
 const viewReservaEspaco = (req, res) => {
   const {id} = req.params;
   const locals = {
     title: "Reservas | Grupo O",
     description: "Página de Reserva de Espaço",
-    id,
+    id: id,
   };
   return res.render("reservaEspaco", locals);
 };
 const reservaEspaco = async (req, res) => {
-  const {reserva_inicio, reserva_fim, descricao, user_id, espaco_id, dia} =
+  const {reserva_inicio, reserva_fim, descricao, token, espaco_id, dia} =
     req.body;
-
-  if (
-    !reserva_inicio ||
-    !reserva_fim ||
-    !descricao ||
-    !user_id ||
-    !espaco_id ||
-    !dia
-  ) {
+  if (!reserva_inicio || !reserva_fim || !descricao || !espaco_id || !dia) {
     return res.status(400).json({err: "Preencha todos os campos!"});
   }
 
-  console.log("datas", reserva_fim, reserva_inicio);
+  const user = await jwt.verify(token, process.env.SECRET_JWT);
   const response = await reserva.findAll({
     where: {
       espaco_id: espaco_id,
-      reserva_inicio: {
-        [Sequelize.Op.lte]: `${dia} ${reserva_inicio}`,
-      },
-      reserva_fim: {
-        [Sequelize.Op.gte]: `${dia} ${reserva_fim}`,
-      },
-      espaco_id: espaco_id,
+      [Sequelize.Op.or]: [
+        {
+          reserva_inicio: {
+            [Sequelize.Op.lte]: `${dia} ${reserva_inicio}`,
+            [Sequelize.Op.gte]: `${dia} ${reserva_fim}`,
+          },
+        },
+        {
+          reserva_fim: {
+            [Sequelize.Op.gte]: `${dia} ${reserva_inicio}`,
+            [Sequelize.Op.lte]: `${dia} ${reserva_fim}`,
+          },
+        },
+        {
+          reserva_inicio: {
+            [Sequelize.Op.lte]: `${dia} ${reserva_inicio}`,
+          },
+          reserva_fim: {
+            [Sequelize.Op.gte]: `${dia} ${reserva_inicio}`,
+          },
+        },
+        {
+          reserva_inicio: {
+            [Sequelize.Op.lte]: `${dia} ${reserva_fim}`,
+          },
+          reserva_fim: {
+            [Sequelize.Op.gte]: `${dia} ${reserva_fim}`,
+          },
+        },
+      ],
     },
   });
 
@@ -48,7 +64,7 @@ const reservaEspaco = async (req, res) => {
     reserva_inicio: `${dia} ${reserva_inicio}`,
     reserva_fim: `${dia} ${reserva_fim}`,
     descricao: descricao,
-    user_id: user_id,
+    user_id: user.user_id,
     espaco_id: espaco_id,
   });
 

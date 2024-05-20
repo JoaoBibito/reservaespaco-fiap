@@ -27,6 +27,11 @@ async function irParaCadastro() {
   window.location.href = `/cadastro`;
 }
 
+function limpaStorage() {
+  localStorage.removeItem("tipo");
+  localStorage.removeItem("token");
+}
+
 async function EfetuaLogin(event) {
   event.preventDefault();
   let form = document.getElementById("form");
@@ -59,6 +64,7 @@ async function EfetuaLogin(event) {
 
 async function verificaLogado() {
   const token = localStorage.getItem("token");
+  console.log("token", token);
   if (!token) {
     localStorage.clear();
     irParaLogin();
@@ -250,29 +256,17 @@ async function lerEspacos() {
   }
 }
 
-async function lerMinhasReservas() {
-  const tk = localStorage.getItem("token");
-
-  const response = await fetch("/minhasReservas", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
-  console.log(token);
-}
-
-async function reservaEspaco(event) {
+async function reservaEspaco(event, espaco_id) {
   event.preventDefault();
 
   let dtInicio = document.getElementById("dtInicio").value;
   let dtFim = document.getElementById("dtFim").value;
   const dia = document.getElementById("diaSelecionado").value;
-  const espaco_id = "<%= id %>";
-  const user_id = localStorage.getItem("user_id");
+  const token = localStorage.getItem("token");
 
   if (dtInicio > dtFim) {
     alert("Hora de inicio tem que ser menor que hora final ");
+    return;
   }
 
   const inicio = new Date(`${dia}T${dtInicio}`);
@@ -281,12 +275,13 @@ async function reservaEspaco(event) {
   const diferencaEmHs = diferencaEmMS / (1000 * 60 * 60);
   if (diferencaEmHs < 1 || diferencaEmHs > 8) {
     alert("Reserva tem que ser maior que 1 hora e menor que 8 horas.");
+    return;
   }
 
   let form = document.getElementById("form");
   const formData = new FormData(form);
   formData.append("espaco_id", espaco_id);
-  formData.append("user_id", user_id);
+  formData.append("token", token);
   formData.append("dia", dia);
 
   const res = await fetch("/reservaEspaco", {
@@ -301,10 +296,26 @@ async function reservaEspaco(event) {
 
   if (data.err) {
     alert(data.err);
+    return;
   }
 
   alert(data.res);
   setTimeout(() => {
     irParaHome();
   }, 2000);
+}
+
+async function lerMinhasReservas() {
+  const tk = localStorage.getItem("token");
+
+  const response = await fetch("/minhasReservas", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({token: tk}),
+  });
+
+  const reservas = await response.json();
+  console.log("reservas", reservas);
 }

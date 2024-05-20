@@ -2,6 +2,7 @@ import user from "../models/user.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
+import reserva from "../models/reserva.js";
 dotenv.config();
 
 const loginUser = async (req, res) => {
@@ -110,10 +111,17 @@ async function viewLerMinhasReservas(req, res) {
 
 async function lerMinhasReservas(req, res) {
   const {token} = req.body;
+  const user = await jwt.verify(token, process.env.SECRET_JWT);
+  const response = await reserva.findAll({
+    where: {
+      user_id: user.user_id,
+    },
+  });
 
-  const user = jwt.verify(token, process.env.SECRET_WT);
-
-  console.log("USER", user);
+  console.log("res", response);
+  console.log("res1", response.length);
+  console.log("res2", response[0]);
+  console.log("res3", response[3]);
 }
 
 export default {
