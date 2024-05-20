@@ -30,12 +30,74 @@ Projeto desenvolvido para facilitar reservas de determinados espaços e evitar c
    ```bash
       npm  install
    ```
-4. Configure as variaveis de ambiente
+4. Configure as variaveis de ambiente:
 
-```bash
+   ```bash
       hostDB=''
       userDB=''
       passDB=''
       portDB=''
       SECRET_JWT=''
+   ```
+
+5. Inicie o servidor:
+   ```bash
+      npm start
+   ```
+
+## Estrutura do projeto
+
+├── controllers
+│ ├── espacoController.js
+│ ├── middleware.js
+│ ├── reservaController.js
+│ ├── userController.js
+├── models
+│ ├── config.js
+│ ├── espaco.js
+│ ├── reserva.js
+│ ├── user.js
+├── node_modules
+├── public
+│ ├── css
+│ │ └── main.css
+│ ├── img
+│ │ └── noise-bg.png
+│ ├── js
+│ │ └── main.js
+├── routes
+│ ├── espacoRoutes.js
+│ ├── reservaRoutes.js
+│ ├── userRoutes.js
+│ ├── viewsRoutes.js
+├── views
+│ ├── layout
+│ │ └── main.ejs
+│ ├── partials
+│ │ └── header.ejs
+│ │ └── footer.ejs
+│ ├── 404.ejs
+│ ├── addEspaco.ejs
+│ ├── cadastro.ejs
+│ ├── deletEspaco.ejs
+│ ├── deletReserva.ejs
+│ ├── editEspaco.ejs
+│ ├── home.ejs
+│ ├── login.ejs
+│ ├── minhasReservas.ejs
+│ ├── reservaEspaco.ejs
+│ ├── todasReservas.ejs
+├── .env
+├── .gitignore
+├── index.js
+├── peckage-lock.json
+├── peckage.json
+├── README.md
+
+### Documentação de pastas
+
+#### Estrutura do Projeto
+
+```markdown
+## Estrutura do Projeto
 ```
