@@ -277,12 +277,70 @@ renderiza lista de reservas em um determinado espaço
 
 ```
 {
-reserva:[
+reservas:[
    {
    title:"reserva",
    start:"dd/MM/aaaa",
    end:"dd/MM/aaaa"
    }
 ]
+}
+```
+
+#### POST /buscarReservasPorDia
+
+requisição
+
+```
+Header: {
+"Content-Type": "application/json",
+}
+body:{
+   espaco_id:"1",
+   reserva_inicio: "dd/MM/aaaa",
+      reserva_fim: "dd/MM/aaaa"
+```
+
+resposta
+
+renderiza lista de horários reservados de um dia em um determinado espaço
+
+```
+{
+reservas:[
+   {
+   title:"reserva",
+   start:"dd/MM/aaaa",
+   end:"dd/MM/aaaa"
+   }
+]
+}
+```
+
+#### POST /lerReservas
+
+requisição
+
+```
+Header: {
+"Content-Type": "application/json",
+}
+body:{
+   reserva_id:"1"
+```
+
+resposta
+
+```
+{
+reserva:
+   {
+   title:"reserva",
+   user_id:"1",
+   espaco_id:"1"
+   start:"dd/MM/aaaa",
+   end:"dd/MM/aaaa"
+   }
+
 }
 ```
