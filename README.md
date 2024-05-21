@@ -131,3 +131,15 @@ Arquivo principal do servidor
 ### peckage.json
 
 Descreve todos os dados do projeto como titulo, descrição, licença, autor, dependencias
+
+## Endpoints
+
+1. Views
+   GET /
+   Renderiza a pagina Home
+
+   GET /login
+   Renderiza a pagina de login
+
+   GET/ cadastro
+   Renderiza a pagina de cadastro
