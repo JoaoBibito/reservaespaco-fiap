@@ -157,7 +157,7 @@ Header: {
 }
 body:{
    email:"",
-   seha:""
+   senha:""
 }
 ```
 
@@ -170,4 +170,25 @@ resposta
    user_tipo:"Operador",
    token:"token"
 }
+```
+
+POST /cadastro
+
+requisição
+
+```
+Header: {
+  "Content-Type": "application/x-www-form-urlencoded",
+}
+body:{
+   nome:"",
+   email:"",
+   seha:""
+}
+```
+
+resposta
+
+```
+status(200).OK
 ```
