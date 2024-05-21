@@ -134,7 +134,7 @@ Descreve todos os dados do projeto como titulo, descrição, licença, autor, de
 
 ## Endpoints
 
-1. Views
+1. Views:
    GET /
    Renderiza a pagina Home
 
