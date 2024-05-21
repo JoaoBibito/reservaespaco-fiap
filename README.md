@@ -410,3 +410,90 @@ resposta
 status(200).OK
 }
 ```
+
+### Espaço Router:
+
+#### GET /addEspaco
+
+Renderiza paginda de Criação de espaço, somente para Admin
+
+#### POST /addEspaco
+
+requisição
+
+```
+Header: {
+"Content-Type": "application/x-www-form-urlencoded",
+}
+body:{
+   nome:"Qualquer",
+   descricao:"Descrição reserva",
+   capacidade:"10",
+   imagem:"link",
+   local:"rua ..",
+}
+```
+
+resposta
+
+renderiza home
+
+```
+{
+status(200).OK
+}
+```
+
+#### GET /lerEspaco
+
+Renderiza cards de espaços criados
+
+#### POST /lerEspaco
+
+requisição
+
+```
+Header: {
+"Content-Type": "application/json",
+}
+body:{
+   espaco_id:"1"
+}
+```
+
+resposta
+
+```
+{
+  nome:"Qualquer",
+   descricao:"Descrição reserva",
+   capacidade:"10",
+   imagem:"link",
+   local:"rua ..",
+}
+```
+
+#### GET /deletEspaco/:id
+
+Renderiza pagina de exclusão de espaço, somente para Admin
+
+#### POST /deletEspaco
+
+requisição
+
+```
+Header: {
+"Content-Type": "application/json",
+}
+body:{
+   espaco_id:"1"
+}
+```
+
+resposta
+
+```
+{
+status(200).OK
+}
+```
