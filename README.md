@@ -269,6 +269,7 @@ Header: {
 }
 body:{
    espaco_id:"1"
+   }
 ```
 
 resposta
@@ -299,6 +300,7 @@ body:{
    espaco_id:"1",
    reserva_inicio: "dd/MM/aaaa",
       reserva_fim: "dd/MM/aaaa"
+      }
 ```
 
 resposta
@@ -327,6 +329,7 @@ Header: {
 }
 body:{
    reserva_id:"1"
+   }
 ```
 
 resposta
@@ -359,6 +362,7 @@ Header: {
 }
 body:{
    token:"token"
+   }
 ```
 
 resposta
@@ -367,7 +371,7 @@ se o usuario for Admin retorna as reservas
 
 ```
 {
-reserva:[
+reservas:[
  {
    title:"reserva",
    user_id:"1",
@@ -378,5 +382,31 @@ reserva:[
 ]
 
 
+}
+```
+
+#### GET /deletReserv/:id
+
+Renderiza a pagina de exclusão de reserva
+
+#### POST /deletReserva
+
+requisição
+
+```
+Header: {
+"Content-Type": "application/json",
+}
+body:{
+   token:"token",
+   reserva_id:"1"
+   }
+```
+
+resposta
+
+```
+{
+status(200).OK
 }
 ```
