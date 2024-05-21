@@ -134,13 +134,26 @@ Descreve todos os dados do projeto como titulo, descrição, licença, autor, de
 
 ## Endpoints
 
-1. Views:
-   :
-   GET /
-   Renderiza a pagina Home
+### Views Router:
 
-   GET /login
-   Renderiza a pagina de login
+GET /
+Renderiza a pagina Home
 
-   GET/ cadastro
-   Renderiza a pagina de cadastro
+GET /login
+Renderiza a pagina de login
+
+GET/ cadastro
+Renderiza a pagina de cadastro
+
+### User Router:
+
+POST /login
+
+```
+POST /login
+Header: Content-Type: application/json
+body:{
+email:"",
+seha:""
+}
+```
