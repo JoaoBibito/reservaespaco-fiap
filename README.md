@@ -156,7 +156,7 @@ requisição
 
 ```
 Header: {
-  "Content-Type": "application/json"
+"Content-Type": "application/json"
 }
 body:{
    email:"",
@@ -181,7 +181,7 @@ requisição
 
 ```
 Header: {
-  "Content-Type": "application/x-www-form-urlencoded",
+"Content-Type": "application/x-www-form-urlencoded",
 }
 body:{
    nome:"",
@@ -206,10 +206,10 @@ requisição
 
 ```
 Header: {
-  "Content-Type": "application/json",
+"Content-Type": "application/json",
 }
 body:{
- token:"token"
+token:"token"
 }
 ```
 
@@ -219,10 +219,70 @@ renderiza cards com cada reserva
 ```
 {
 reservas:[
-{
-   descricao:"Descrição reserva",
-   reserva_inicio:"dd/MM/aaaa",
-   reserva_fim:"dd/MM/aaaa"
+      {
+         descricao:"Descrição reserva",
+         reserva_inicio:"dd/MM/aaaa",
+         reserva_fim:"dd/MM/aaaa"
+      }
+   ]
 }
-]}
+```
+
+### Reserva Router:
+
+#### GET /reservaEspaco/:id
+
+Renderiza a pagina de reservar espaço
+
+#### POST /reservaEspaço
+
+requisição
+
+```
+Header: {
+"Content-Type": "application/x-www-form-urlencoded",
+}
+body:{
+   descricao:"Descrição reserva",
+         reserva_inicio:"dd/MM/aaaa",
+         reserva_fim:"dd/MM/aaaa",
+         espaco_id:"1",
+         user_id:"1"
+}
+```
+
+resposta
+
+```
+{
+res:"Reserva criada com sucesso"
+}
+```
+
+#### POST/buscaReservasPorEspaco
+
+requisição
+
+```
+Header: {
+"Content-Type": "application/json",
+}
+body:{
+   espaco_id:"1"
+```
+
+resposta
+
+renderiza lista de reservas em um determinado espaço
+
+```
+{
+reserva:[
+   {
+   title:"reserva",
+   start:"dd/MM/aaaa",
+   end:"dd/MM/aaaa"
+   }
+]
+}
 ```
