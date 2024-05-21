@@ -148,12 +148,25 @@ Renderiza a pagina de cadastro
 ### User Router:
 
 POST /login
+requisição
 
 ```
-POST /login
-Header: Content-Type: application/json
+Header: {
+  "Content-Type": "application/json"
+}
 body:{
-email:"",
-seha:""
+   email:"",
+   seha:""
+}
+```
+
+resposta
+
+```
+{
+   nome:"qualque",
+   user_id:"10",
+   user_tipo:"Operador",
+   token:"token"
 }
 ```
