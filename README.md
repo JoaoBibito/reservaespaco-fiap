@@ -3,6 +3,13 @@
 ## Visão Geral
 
 Projeto desenvolvido para facilitar reservas de determinados espaços e evitar conflito de horários.
+Usuarios
+Operadores - podem criar reservas, vizualisar suas reservas, deletar reservas.
+Admin - podem criar, editar e excluir espaços
+
+User admin
+lucas@live.com
+123
 
 ## Tecnologias Utilizadas
 
