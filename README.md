@@ -114,3 +114,20 @@ Responsável pela lógica de dados, onde cada model é uma tabela no banco de da
 Contém os arquivos .EJS que são renderizados pelo servidos apra definir a interface de usuário.
 
 - layout - Arquivo principal onde fica a base do HTML
+- partials - arquivos .ejs que são reutilizaveis: header e footer
+
+### .env
+
+Arquivo onde fica as variaveis de ambientte do projto
+
+### .gitignore
+
+Arquivo que descreve quais arquivos e pastas no qual devem ser ignoradas pelo git
+
+### index.js
+
+Arquivo principal do servidor
+
+### peckage.json
+
+Descreve todos os dados do projeto como titulo, descrição, licença, autor, dependencias
