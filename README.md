@@ -46,59 +46,69 @@ Projeto desenvolvido para facilitar reservas de determinados espaços e evitar c
    ```
 
 ## Estrutura do projeto
+
 ```shell
-  $ tree
-├── controllers
-│ ├── espacoController.js
-│ ├── middleware.js
-│ ├── reservaController.js
-│ ├── userController.js
-├── models
-│ ├── config.js
-│ ├── espaco.js
-│ ├── reserva.js
-│ ├── user.js
-├── node_modules
-├── public
-│ ├── css
-│ │ └── main.css
-│ ├── img
-│ │ └── noise-bg.png
-│ ├── js
-│ │ └── main.js
-├── routes
-│ ├── espacoRoutes.js
-│ ├── reservaRoutes.js
-│ ├── userRoutes.js
-│ ├── viewsRoutes.js
-├── views
-│ ├── layout
-│ │ └── main.ejs
-│ ├── partials
-│ │ └── header.ejs
-│ │ └── footer.ejs
-│ ├── 404.ejs
-│ ├── addEspaco.ejs
-│ ├── cadastro.ejs
-│ ├── deletEspaco.ejs
-│ ├── deletReserva.ejs
-│ ├── editEspaco.ejs
-│ ├── home.ejs
-│ ├── login.ejs
-│ ├── minhasReservas.ejs
-│ ├── reservaEspaco.ejs
-│ ├── todasReservas.ejs
-├── .env
-├── .gitignore
-├── index.js
-├── peckage-lock.json
-├── peckage.json
-├── README.md
+   $ tree
+   ├── controllers
+   │ ├── espacoController.js
+   │ ├── middleware.js
+   │ ├── reservaController.js
+   │ ├── userController.js
+   ├── models
+   │ ├── config.js
+   │ ├── espaco.js
+   │ ├── reserva.js
+   │ ├── user.js
+   ├── node_modules
+   ├── public
+   │ ├── css
+   │ │ └── main.css
+   │ ├── img
+   │ │ └── noise-bg.png
+   │ ├── js
+   │ │ └── main.js
+   ├── routes
+   │ ├── espacoRoutes.js
+   │ ├── reservaRoutes.js
+   │ ├── userRoutes.js
+   │ ├── viewsRoutes.js
+   ├── views
+   │ ├── layout
+   │ │ └── main.ejs
+   │ ├── partials
+   │ │ └── header.ejs
+   │ │ └── footer.ejs
+   │ ├── 404.ejs
+   │ ├── addEspaco.ejs
+   │ ├── cadastro.ejs
+   │ ├── deletEspaco.ejs
+   │ ├── deletReserva.ejs
+   │ ├── editEspaco.ejs
+   │ ├── home.ejs
+   │ ├── login.ejs
+   │ ├── minhasReservas.ejs
+   │ ├── reservaEspaco.ejs
+   │ ├── todasReservas.ejs
+   ├── .env
+   ├── .gitignore
+   ├── index.js
+   ├── peckage-lock.json
+   ├── peckage.json
+   ├── README.md
 ```
+
 ### Documentação de pastas
 
-#### Estrutura do Projeto
+#### controllers
 
-```markdown
-oi teste
-```
+Contém os controllers onde vai a logica de negócio do projeto, processamento de dados, interação com as models e formata para o frontend.
+
+#### models
+
+Responsável pela lógica de dados, onde cada model é uma tabela no banco de dados.
+
+#### view
+
+Contém os arquivos .EJS que são renderizados pelo servidos apra definir a interface de usuário.
+
+-**layout**
