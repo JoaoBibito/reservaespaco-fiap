@@ -47,6 +47,8 @@ Projeto desenvolvido para facilitar reservas de determinados espaços e evitar c
 
 ## Estrutura do projeto
 
+1. Estrutura de pastas
+
 ```shell
    $ tree
    ├── controllers
@@ -97,18 +99,18 @@ Projeto desenvolvido para facilitar reservas de determinados espaços e evitar c
    ├── README.md
 ```
 
-### Documentação de pastas
+## Documentação de pastas
 
-#### controllers
+### controllers
 
 Contém os controllers onde vai a logica de negócio do projeto, processamento de dados, interação com as models e formata para o frontend.
 
-#### models
+### models
 
 Responsável pela lógica de dados, onde cada model é uma tabela no banco de dados.
 
-#### view
+### view
 
 Contém os arquivos .EJS que são renderizados pelo servidos apra definir a interface de usuário.
 
--**layout**
+- layout - Arquivo principal onde fica a base do HTML
