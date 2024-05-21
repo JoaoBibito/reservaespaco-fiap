@@ -142,7 +142,6 @@ const todasReservas = async (req, res) => {
   }
 
   const response = await reserva.findAll({order: [["reserva_id", "DESC"]]});
-  console.log("IYgouaifunerlifqerf", response);
   return res.status(200).json(response);
 };
 const viewDeletReserva = async (req, res) => {

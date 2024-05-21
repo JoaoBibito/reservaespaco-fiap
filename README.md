@@ -344,3 +344,39 @@ reserva:
 
 }
 ```
+
+#### GET /todasReservas
+
+Caso usuário logado for Admin renderiza a pagina com todas as reservas
+
+#### POST /todasReservas
+
+requisição
+
+```
+Header: {
+"Content-Type": "application/json",
+}
+body:{
+   token:"token"
+```
+
+resposta
+
+se o usuario for Admin retorna as reservas
+
+```
+{
+reserva:[
+ {
+   title:"reserva",
+   user_id:"1",
+   espaco_id:"1"
+   start:"dd/MM/aaaa",
+   end:"dd/MM/aaaa"
+   }
+]
+
+
+}
+```
