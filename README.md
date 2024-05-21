@@ -136,18 +136,21 @@ Descreve todos os dados do projeto como titulo, descrição, licença, autor, de
 
 ### Views Router:
 
-GET /
+##### GET /
+
 Renderiza a pagina Home
 
-GET /login
+#### GET /login
+
 Renderiza a pagina de login
 
-GET/ cadastro
+#### GET/ cadastro
+
 Renderiza a pagina de cadastro
 
 ### User Router:
 
-POST /login
+#### POST /login
 
 requisição
 
@@ -172,7 +175,7 @@ resposta
 }
 ```
 
-POST /cadastro
+#### POST /cadastro
 
 requisição
 
@@ -191,4 +194,35 @@ resposta
 
 ```
 status(200).OK
+```
+
+#### GET /minhasReservas
+
+Renderiza pagina Minhas Reservas
+
+#### POST /minhasReservas
+
+requisição
+
+```
+Header: {
+  "Content-Type": "application/json",
+}
+body:{
+ token:"token"
+}
+```
+
+resposta
+renderiza cards com cada reserva
+
+```
+{
+reservas:[
+{
+   descricao:"Descrição reserva",
+   reserva_inicio:"dd/MM/aaaa",
+   reserva_fim:"dd/MM/aaaa"
+}
+]}
 ```
